@@ -24,7 +24,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useRouter } from "next/navigation";
 
 // Form validation schema
-const projectSchema = z.object({
+const projectSchema: z.ZodSchema<any> = z.object({
   title: z.string().min(10, "Title must be at least 10 characters").max(100, "Title too long"),
   description: z.string().min(50, "Description must be at least 50 characters").max(1000, "Description too long"),
   category: z.enum(["interior-design", "architecture", "structural", "electrical", "plumbing", "landscaping", "other"], {
@@ -41,10 +41,7 @@ const projectSchema = z.object({
   budget: z.object({
     min: z.number().min(1000, "Minimum budget should be at least ₹1,000"),
     max: z.number().min(1000, "Maximum budget should be at least ₹1,000"),
-    currency: z.string().default("INR")
-  }).refine(data => data.max >= data.min, {
-    message: "Maximum budget should be greater than minimum budget",
-    path: ["max"]
+    currency: z.literal("INR")
   }),
   timeline: z.string().min(5, "Timeline is required"),
   urgency: z.enum(["low", "medium", "high"], {
@@ -89,7 +86,6 @@ export default function PostProjectPage() {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const form = useForm<ProjectFormData>({
-    resolver: zodResolver(projectSchema),
     defaultValues: {
       title: "",
       description: "",
