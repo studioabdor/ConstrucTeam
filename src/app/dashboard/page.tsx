@@ -8,749 +8,417 @@ import {
   Star, 
   TrendingUp, 
   Eye, 
- 
   Calendar, 
   DollarSign,
   Building2,
   MapPin,
   Settings,
-  Camera,
   Edit3,
   Plus,
   BarChart3,
   Clock,
   CheckCircle,
-  Award
+  Award,
+  MessageCircle,
+  Heart,
+  Share2,
+  FileText,
+  Target
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-// import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { formatCurrency, formatRelativeTime } from "@/lib/utils";
 import { ConsultantProfile } from "@/types";
-import Link from "next/link";
+import { 
+  DynamicBentoGrid, 
+  BentoStat, 
+  BentoProgress, 
+  BentoPortfolio, 
+  BentoActivity,
+  type BentoItem 
+} from "@/components/ui/dynamic-bento-grid";
+import { AuthLayout } from "@/components/auth/auth-layout";
+import { PageHeader } from "@/components/layout/page-header";
+import { PageContainer } from "@/components/layout/page-container";
+import { Recommendations } from "@/components/dashboard/recommendations";
+import { ProgressTracker } from "@/components/dashboard/progress-tracker";
+import { PortfolioPanel } from "@/components/dashboard/portfolio-panel";
 
 // Mock data - In real app, this would come from Firebase
-const mockBids = [
-  {
-    id: "1",
-    projectTitle: "Modern 3BHK Apartment Interior",
-    clientName: "Rajesh Kumar",
-    amount: 350000,
-    status: "pending" as const,
-    submittedAt: new Date("2024-01-15"),
-    location: "Gurgaon, Haryana"
-  },
-  {
-    id: "2", 
-    projectTitle: "Commercial Office Design",
-    clientName: "TechCorp Ltd",
-    amount: 1200000,
-    status: "accepted" as const,
-    submittedAt: new Date("2024-01-10"),
-    location: "Mumbai, Maharashtra"
-  },
-  {
-    id: "3",
-    projectTitle: "Villa Landscape Design", 
-    clientName: "Priya Sharma",
-    amount: 80000,
-    status: "rejected" as const,
-    submittedAt: new Date("2024-01-08"),
-    location: "Pune, Maharashtra"
-  }
-];
+const mockStats = {
+  totalProjects: 24,
+  activeProjects: 8,
+  totalEarnings: 2850000,
+  profileViews: 1250,
+  averageRating: 4.8,
+  completionRate: 95
+};
 
 const mockRecentProjects = [
   {
     id: "1",
-    title: "Corporate Office Renovation",
-    client: "ABC Corp",
-    completedAt: new Date("2023-12-20"),
-    value: 1500000,
-    rating: 5,
-    image: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400"
+    title: "Modern Villa Interior",
+    imageUrl: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400",
+    description: "Luxury 4BHK villa with contemporary design elements",
+    tags: ["Interior Design", "Luxury", "Villa"],
+    status: "completed",
+    client: "Sharma Family"
   },
   {
     id: "2", 
-    title: "Luxury Apartment Interior",
-    client: "John Doe",
-    completedAt: new Date("2023-11-15"),
-    value: 600000,
-    rating: 4,
-    image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=400"
+    title: "Corporate Office Space",
+    imageUrl: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=400",
+    description: "Open-plan office design for tech startup",
+    tags: ["Commercial", "Modern", "Office"],
+    status: "in-progress",
+    client: "TechCorp Ltd"
+  },
+  {
+    id: "3",
+    title: "Boutique Hotel Lobby",
+    imageUrl: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=400",
+    description: "Elegant lobby design with local cultural elements",
+    tags: ["Hospitality", "Cultural", "Luxury"],
+    status: "completed",
+    client: "Heritage Hotels"
   }
 ];
 
-export default function DashboardPage() {
-  const { user, userProfile } = useAuth();
-  const [activeTab, setActiveTab] = useState("overview");
-  const [isEditing, setIsEditing] = useState(false);
+const mockActivities = [
+  {
+    id: "1",
+    action: "New project inquiry received",
+    time: "2 hours ago",
+    icon: <MessageCircle className="h-3 w-3" />
+  },
+  {
+    id: "2",
+    action: "Portfolio viewed by client",
+    time: "4 hours ago", 
+    icon: <Eye className="h-3 w-3" />
+  },
+  {
+    id: "3",
+    action: "Project milestone completed",
+    time: "1 day ago",
+    icon: <CheckCircle className="h-3 w-3" />
+  },
+  {
+    id: "4",
+    action: "Client left 5-star review",
+    time: "2 days ago",
+    icon: <Star className="h-3 w-3" />
+  }
+];
 
-  if (!user || !userProfile || userProfile.userType !== "consultant") {
+export default function Dashboard() {
+  const { user, userProfile } = useAuth();
+  const [activeTab, setActiveTab] = useState<"overview" | "projects" | "analytics">("overview");
+
+  if (!user) {
     return (
-      <div className="min-h-screen flex items-center justify-center p-4">
-        <div className="glass-card p-8 text-center max-w-md w-full">
-          <Building2 className="h-12 w-12 text-blue-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold mb-4">Access Denied</h2>
-          <p className="text-muted-foreground mb-6">
-            This page is only available for consultants
-          </p>
-          <Link href="/">
-            <Button variant="glass">Back to Home</Button>
-          </Link>
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="glass-card p-8 text-center">
+          <p className="text-muted-foreground">Please sign in to access your dashboard.</p>
         </div>
       </div>
     );
   }
 
-  const stats = {
-    totalBids: mockBids.length,
-    activeBids: mockBids.filter(b => b.status === "pending").length,
-    successRate: ((mockBids.filter(b => b.status === "accepted").length / mockBids.length) * 100).toFixed(0),
-    totalEarnings: mockRecentProjects.reduce((sum, p) => sum + p.value, 0),
-    avgRating: (mockRecentProjects.reduce((sum, p) => sum + p.rating, 0) / mockRecentProjects.length).toFixed(1),
-    completedProjects: mockRecentProjects.length
-  };
+  const isConsultant = userProfile?.userType === 'consultant';
+  const consultantProfile = isConsultant ? (userProfile as ConsultantProfile) : null;
+
+  // Dynamic bento items based on content and priority
+  const bentoItems: BentoItem[] = [
+    // High priority stats - small boxes
+    {
+      id: "total-projects",
+      size: "small",
+      contentType: "stat",
+      priority: 10,
+      children: (
+        <BentoStat
+          title="Total Projects"
+          value={mockStats.totalProjects.toString()}
+          change="+3 this month"
+          changeType="positive"
+          icon={<Briefcase className="h-4 w-4" />}
+        />
+      )
+    },
+    {
+      id: "active-projects", 
+      size: "small",
+      contentType: "stat",
+      priority: 9,
+      children: (
+        <BentoStat
+          title="Active Projects"
+          value={mockStats.activeProjects.toString()}
+          icon={<Building2 className="h-4 w-4" />}
+        />
+      )
+    },
+    {
+      id: "total-earnings",
+      size: "medium",
+      contentType: "stat", 
+      priority: 8,
+      children: (
+        <BentoStat
+          title="Total Earnings"
+          value={formatCurrency(mockStats.totalEarnings)}
+          change="+12% this quarter"
+          changeType="positive"
+          icon={<DollarSign className="h-4 w-4" />}
+        />
+      )
+    },
+    {
+      id: "rating",
+      size: "small",
+      contentType: "stat",
+      priority: 7,
+      children: (
+        <BentoStat
+          title="Average Rating"
+          value={`${mockStats.averageRating}/5`}
+          icon={<Star className="h-4 w-4" />}
+        />
+      )
+    },
+
+    // Progress tracking - wide boxes
+    {
+      id: "completion-rate",
+      size: "wide",
+      contentType: "progress",
+      priority: 6,
+      children: (
+        <BentoProgress
+          title="Project Completion Rate"
+          progress={mockStats.completionRate}
+          total={100}
+          description="Maintaining excellent delivery standards"
+        />
+      )
+    },
+
+    // Portfolio showcase - large boxes
+    {
+      id: "featured-project-1",
+      size: "large", 
+      contentType: "portfolio",
+      priority: 5,
+      isInteractive: true,
+      children: (
+        <BentoPortfolio
+          title={mockRecentProjects[0].title}
+          imageUrl={mockRecentProjects[0].imageUrl}
+          description={mockRecentProjects[0].description}
+          tags={mockRecentProjects[0].tags}
+        />
+      ),
+      onClick: () => console.log("Open project details")
+    },
+    {
+      id: "featured-project-2",
+      size: "medium",
+      contentType: "portfolio", 
+      priority: 4,
+      isInteractive: true,
+      children: (
+        <BentoPortfolio
+          title={mockRecentProjects[1].title}
+          imageUrl={mockRecentProjects[1].imageUrl}
+          description={mockRecentProjects[1].description}
+          tags={mockRecentProjects[1].tags}
+        />
+      ),
+      onClick: () => console.log("Open project details")
+    },
+
+    // Activity feed - tall box
+    {
+      id: "recent-activity",
+      size: "tall",
+      contentType: "activity",
+      priority: 3,
+      children: <BentoActivity activities={mockActivities} />
+    },
+
+    // Quick actions - medium boxes
+    {
+      id: "create-post",
+      size: "medium",
+      contentType: "content",
+      priority: 2,
+      isInteractive: true,
+      children: (
+        <div className="flex flex-col items-center justify-center h-full text-center">
+          <Plus className="h-8 w-8 text-emerald-500 mb-2" />
+          <h3 className="font-semibold mb-1">Create New Post</h3>
+          <p className="text-xs text-muted-foreground">Share your latest work</p>
+        </div>
+      ),
+      onClick: () => console.log("Create new post")
+    },
+    {
+      id: "view-analytics",
+      size: "medium", 
+      contentType: "chart",
+      priority: 1,
+      isInteractive: true,
+      children: (
+        <div className="flex flex-col items-center justify-center h-full text-center">
+          <BarChart3 className="h-8 w-8 text-amber-500 mb-2" />
+          <h3 className="font-semibold mb-1">View Analytics</h3>
+          <p className="text-xs text-muted-foreground">Track your performance</p>
+        </div>
+      ),
+      onClick: () => setActiveTab("analytics")
+    }
+  ];
+
+  const headerActions = (
+    <>
+      <Button variant="outline" size="sm">
+        <Settings className="h-4 w-4 mr-2" />
+        Settings
+      </Button>
+      <Button size="sm" className="bg-emerald-600 hover:bg-emerald-700">
+        <Plus className="h-4 w-4 mr-2" />
+        New Project
+      </Button>
+    </>
+  );
 
   const tabs = [
-    { id: "overview", label: "Overview", icon: BarChart3 },
-    { id: "profile", label: "My Profile", icon: User },
-    { id: "bids", label: "Bids", icon: Briefcase },
-    { id: "projects", label: "Projects", icon: Star },
-    { id: "settings", label: "Settings", icon: Settings }
+    { 
+      id: "overview", 
+      label: "Overview", 
+      icon: <BarChart3 className="h-4 w-4" />,
+      active: activeTab === "overview",
+      onClick: () => setActiveTab("overview")
+    },
+    { 
+      id: "projects", 
+      label: "Projects", 
+      icon: <Briefcase className="h-4 w-4" />,
+      active: activeTab === "projects", 
+      onClick: () => setActiveTab("projects")
+    },
+    { 
+      id: "analytics", 
+      label: "Portfolio", 
+      icon: <Award className="h-4 w-4" />,
+      active: activeTab === "analytics",
+      onClick: () => setActiveTab("analytics")
+    }
   ];
 
   return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <div className="sticky top-0 z-10 glass bg-background/80 backdrop-blur-xl border-b border-white/10">
-        <div className="max-w-7xl mx-auto p-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
-              <Link href="/" className="flex items-center space-x-2">
-                <Building2 className="h-8 w-8 text-blue-500" />
-                <span className="text-2xl font-bold gradient-text">ConstrucTeam</span>
-              </Link>
-              <div className="h-6 w-px bg-white/20" />
-              <h1 className="text-xl font-semibold">Dashboard</h1>
-            </div>
-            
-            <div className="flex items-center space-x-4">
-              <Link href="/feed">
-                <Button variant="ghost" size="sm">
-                  Browse Projects
-                </Button>
-              </Link>
-              <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-sm font-medium">
-                {userProfile.displayName?.[0] || userProfile.email[0].toUpperCase()}
-              </div>
-            </div>
-          </div>
+    <AuthLayout requireAuth={true}>
+      <PageHeader
+        title={`Welcome back, ${consultantProfile?.useAlias && consultantProfile?.aliasName 
+          ? consultantProfile.aliasName 
+          : userProfile?.displayName || 'User'
+        }!`}
+        subtitle="Here's what's happening with your projects today."
+        actions={headerActions}
+        tabs={tabs}
+      />
 
-          {/* Tabs */}
-          <div className="flex space-x-1 mt-4">
-            {tabs.map((tab) => {
-              const Icon = tab.icon;
-              const isActive = activeTab === tab.id;
-              
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center space-x-2 px-4 py-2 rounded-lg transition-all ${
-                    isActive 
-                      ? 'bg-blue-500/20 text-blue-500 border border-blue-500/30' 
-                      : 'hover:bg-white/5 text-muted-foreground hover:text-foreground'
-                  }`}
-                >
-                  <Icon className="h-4 w-4" />
-                  <span className="text-sm font-medium">{tab.label}</span>
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      </div>
-
-      {/* Content */}
-      <div className="max-w-7xl mx-auto p-4">
+      <PageContainer>
         {activeTab === "overview" && (
-          <div className="space-y-6">
-            {/* Welcome Section */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="glass-card p-6"
-            >
-              <div className="flex items-center justify-between">
-                <div>
-                  <h2 className="text-2xl font-bold mb-2">
-                    Welcome back, {userProfile.userType === 'consultant' && (userProfile as ConsultantProfile).useAlias && (userProfile as ConsultantProfile).aliasName ? (userProfile as ConsultantProfile).aliasName : userProfile.displayName}! 👋
-                  </h2>
-                  <p className="text-muted-foreground">
-                    Here&apos;s what&apos;s happening with your consultancy business
-                  </p>
-                </div>
-                <div className="text-right">
-                  <div className="text-sm text-muted-foreground">Today</div>
-                  <div className="text-xl font-bold">{new Date().toLocaleDateString()}</div>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.1 }}
-                className="glass-card p-4 hover:scale-105 transition-transform"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <Briefcase className="h-8 w-8 text-blue-500" />
-                  <span className="text-xs px-2 py-1 bg-blue-500/20 text-blue-500 rounded-full">
-                    Total
-                  </span>
-                </div>
-                <div className="text-2xl font-bold">{stats.totalBids}</div>
-                <div className="text-sm text-muted-foreground">Total Bids</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.2 }}
-                className="glass-card p-4 hover:scale-105 transition-transform"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <Clock className="h-8 w-8 text-yellow-500" />
-                  <span className="text-xs px-2 py-1 bg-yellow-500/20 text-yellow-500 rounded-full">
-                    Active
-                  </span>
-                </div>
-                <div className="text-2xl font-bold">{stats.activeBids}</div>
-                <div className="text-sm text-muted-foreground">Pending</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.3 }}
-                className="glass-card p-4 hover:scale-105 transition-transform"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <TrendingUp className="h-8 w-8 text-green-500" />
-                  <span className="text-xs px-2 py-1 bg-green-500/20 text-green-500 rounded-full">
-                    Rate
-                  </span>
-                </div>
-                <div className="text-2xl font-bold">{stats.successRate}%</div>
-                <div className="text-sm text-muted-foreground">Success</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4 }}
-                className="glass-card p-4 hover:scale-105 transition-transform"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <DollarSign className="h-8 w-8 text-purple-500" />
-                  <span className="text-xs px-2 py-1 bg-purple-500/20 text-purple-500 rounded-full">
-                    Total
-                  </span>
-                </div>
-                <div className="text-2xl font-bold">₹{(stats.totalEarnings / 100000).toFixed(1)}L</div>
-                <div className="text-sm text-muted-foreground">Earnings</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.5 }}
-                className="glass-card p-4 hover:scale-105 transition-transform"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <Star className="h-8 w-8 text-orange-500" />
-                  <span className="text-xs px-2 py-1 bg-orange-500/20 text-orange-500 rounded-full">
-                    Avg
-                  </span>
-                </div>
-                <div className="text-2xl font-bold">{stats.avgRating}</div>
-                <div className="text-sm text-muted-foreground">Rating</div>
-              </motion.div>
-
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.6 }}
-                className="glass-card p-4 hover:scale-105 transition-transform"
-              >
-                <div className="flex items-center justify-between mb-2">
-                  <CheckCircle className="h-8 w-8 text-emerald-500" />
-                  <span className="text-xs px-2 py-1 bg-emerald-500/20 text-emerald-500 rounded-full">
-                    Done
-                  </span>
-                </div>
-                <div className="text-2xl font-bold">{stats.completedProjects}</div>
-                <div className="text-sm text-muted-foreground">Projects</div>
-              </motion.div>
-            </div>
-
-            {/* Recent Activity */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Recent Bids */}
-              <motion.div
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.7 }}
-                className="glass-card p-6"
-              >
-                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                  <Briefcase className="h-5 w-5 mr-2 text-blue-500" />
-                  Recent Bids
-                </h3>
-                <div className="space-y-4">
-                  {mockBids.slice(0, 3).map((bid) => (
-                    <div key={bid.id} className="flex items-center justify-between p-3 rounded-lg bg-white/5">
-                      <div className="flex-1">
-                        <h4 className="font-medium text-sm">{bid.projectTitle}</h4>
-                        <p className="text-xs text-muted-foreground">{bid.clientName} • {bid.location}</p>
-                        <p className="text-xs text-muted-foreground">{formatRelativeTime(bid.submittedAt)}</p>
-                      </div>
-                      <div className="text-right">
-                        <div className="font-semibold text-sm">{formatCurrency(bid.amount)}</div>
-                        <div className={`text-xs px-2 py-1 rounded-full ${
-                          bid.status === "pending" ? "bg-yellow-500/20 text-yellow-500" :
-                          bid.status === "accepted" ? "bg-green-500/20 text-green-500" :
-                          "bg-red-500/20 text-red-500"
-                        }`}>
-                          {bid.status}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <Button variant="ghost" size="sm" className="w-full mt-4" onClick={() => setActiveTab("bids")}>
-                  View All Bids
-                </Button>
-              </motion.div>
-
-              {/* Recent Projects */}
-              <motion.div
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.8 }}
-                className="glass-card p-6"
-              >
-                <h3 className="text-lg font-semibold mb-4 flex items-center">
-                  <Star className="h-5 w-5 mr-2 text-orange-500" />
-                  Recent Projects
-                </h3>
-                <div className="space-y-4">
-                  {mockRecentProjects.map((project) => (
-                    <div key={project.id} className="flex items-center space-x-3 p-3 rounded-lg bg-white/5">
-                                    <div 
-                style={{ backgroundImage: `url(${project.image})` }}
-                className="w-12 h-12 rounded-lg bg-cover bg-center"
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 lg:grid-cols-4 gap-8"
+          >
+            {/* Main Content - Bento Grid */}
+            <div className="lg:col-span-3">
+              <DynamicBentoGrid 
+                items={bentoItems}
+                maxColumns={6}
+                className="mb-8"
               />
-                      <div className="flex-1">
-                        <h4 className="font-medium text-sm">{project.title}</h4>
-                        <p className="text-xs text-muted-foreground">{project.client}</p>
-                        <div className="flex items-center space-x-2 mt-1">
-                          <div className="flex items-center">
-                            {[...Array(5)].map((_, i) => (
-                              <Star key={i} className={`h-3 w-3 ${
-                                i < project.rating ? "text-yellow-500 fill-current" : "text-gray-300"
-                              }`} />
-                            ))}
-                          </div>
-                          <span className="text-xs font-medium">{formatCurrency(project.value)}</span>
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-                <Button variant="ghost" size="sm" className="w-full mt-4" onClick={() => setActiveTab("projects")}>
-                  View All Projects
-                </Button>
-              </motion.div>
             </div>
-          </div>
-        )}
 
-        {activeTab === "profile" && (
-          <ProfileTab userProfile={userProfile} isEditing={isEditing} setIsEditing={setIsEditing} />
-        )}
-
-        {activeTab === "bids" && (
-          <BidsTab bids={mockBids} />
+            {/* Right Sidebar - Recommendations */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-8">
+                <Recommendations userType={userProfile?.userType || 'consultant'} />
+              </div>
+            </div>
+          </motion.div>
         )}
 
         {activeTab === "projects" && (
-          <ProjectsTab projects={mockRecentProjects} />
-        )}
-
-        {activeTab === "settings" && (
-          <SettingsTab />
-        )}
-      </div>
-    </div>
-  );
-}
-
-function ProfileTab({ userProfile, isEditing, setIsEditing }: { 
-  userProfile: {
-    displayName?: string;
-    email: string;
-    useAlias?: boolean;
-    aliasName?: string;
-    specializations?: string[];
-    location?: { city: string; state: string };
-    experience?: number;
-    rating?: number;
-    completedProjects?: number;
-    isVerified?: boolean;
-    services?: string[];
-    preferredProjectSize?: string;
-  }; 
-  isEditing: boolean; 
-  setIsEditing: (editing: boolean) => void 
-}) {
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">My Profile</h2>
-        <Button 
-          variant="outline" 
-          size="sm" 
-          onClick={() => setIsEditing(!isEditing)}
-          className="glass"
-        >
-          <Edit3 className="h-4 w-4 mr-2" />
-          {isEditing ? "Cancel" : "Edit Profile"}
-        </Button>
-      </div>
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Profile Card */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="lg:col-span-1"
-        >
-          <div className="glass-card p-6 text-center">
-            <div className="relative mb-4">
-              <div className="w-24 h-24 rounded-full bg-gradient-to-br from-blue-500 to-purple-500 flex items-center justify-center text-white text-2xl font-bold mx-auto">
-                {userProfile.displayName?.[0] || userProfile.email[0].toUpperCase()}
-              </div>
-              <button className="absolute bottom-0 right-1/2 transform translate-x-6 translate-y-2 w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white hover:bg-blue-600 transition-colors">
-                <Camera className="h-4 w-4" />
-              </button>
-            </div>
-            
-            <h3 className="text-xl font-bold mb-1">
-              {userProfile.useAlias && userProfile.aliasName ? userProfile.aliasName : userProfile.displayName}
-            </h3>
-            
-            {userProfile.specializations && userProfile.specializations.length > 0 && (
-              <p className="text-muted-foreground mb-2">{userProfile.specializations[0]}</p>
-            )}
-            
-            {userProfile.location && (
-              <p className="text-sm text-muted-foreground flex items-center justify-center">
-                <MapPin className="h-3 w-3 mr-1" />
-                {userProfile.location.city}, {userProfile.location.state}
-              </p>
-            )}
-
-            <div className="flex items-center justify-center mt-4 space-x-4">
-              <div className="text-center">
-                <div className="font-bold">{userProfile.experience || 0}</div>
-                <div className="text-xs text-muted-foreground">Years Exp</div>
-              </div>
-              <div className="text-center">
-                <div className="font-bold flex items-center">
-                  {userProfile.rating || 0}
-                  <Star className="h-3 w-3 ml-1 text-yellow-500" />
-                </div>
-                <div className="text-xs text-muted-foreground">Rating</div>
-              </div>
-              <div className="text-center">
-                <div className="font-bold">{userProfile.completedProjects || 0}</div>
-                <div className="text-xs text-muted-foreground">Projects</div>
-              </div>
-            </div>
-
-            {userProfile.isVerified && (
-              <div className="flex items-center justify-center mt-4">
-                <Award className="h-4 w-4 text-blue-500 mr-1" />
-                <span className="text-sm text-blue-500 font-medium">Verified Consultant</span>
-              </div>
-            )}
-          </div>
-        </motion.div>
-
-        {/* Profile Details */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="lg:col-span-2"
-        >
-          <div className="glass-card p-6">
-            <h3 className="text-lg font-semibold mb-4">Professional Information</h3>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div>
-                <Label className="text-sm font-medium text-muted-foreground">Services Offered</Label>
-                <div className="mt-2 flex flex-wrap gap-2">
-                  {userProfile.services?.map((service: string) => (
-                    <span key={service} className="text-xs px-2 py-1 bg-blue-500/20 text-blue-500 rounded-full">
-                      {service.replace("-", " ")}
-                    </span>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label className="text-sm font-medium text-muted-foreground">Specializations</Label>
-                <div className="mt-2">
-                  {userProfile.specializations?.map((spec: string, index: number) => (
-                    <div key={index} className="text-sm mb-1">{spec}</div>
-                  ))}
-                </div>
-              </div>
-
-              <div>
-                <Label className="text-sm font-medium text-muted-foreground">Preferred Project Size</Label>
-                <div className="mt-2 text-sm capitalize">{userProfile.preferredProjectSize}</div>
-              </div>
-
-              <div>
-                <Label className="text-sm font-medium text-muted-foreground">Experience</Label>
-                <div className="mt-2 text-sm">{userProfile.experience} years</div>
-              </div>
-            </div>
-          </div>
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-function BidsTab({ bids }: { 
-  bids: Array<{
-    id: string;
-    projectTitle: string;
-    clientName: string;
-    amount: number;
-    status: string;
-    submittedAt: Date;
-    location: string;
-  }> 
-}) {
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">My Bids</h2>
-      
-      <div className="grid gap-4">
-        {bids.map((bid) => (
           <motion.div
-            key={bid.id}
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass-card p-6"
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-1 lg:grid-cols-3 gap-8"
           >
-            <div className="flex items-start justify-between">
-              <div className="flex-1">
-                <h3 className="text-lg font-semibold mb-2">{bid.projectTitle}</h3>
-                <div className="flex items-center space-x-4 text-sm text-muted-foreground mb-3">
-                  <div className="flex items-center">
-                    <User className="h-4 w-4 mr-1" />
-                    {bid.clientName}
+            {/* Projects Grid */}
+            <div className="lg:col-span-2 space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {mockRecentProjects.map((project) => (
+                  <div key={project.id} className="glass-card p-6 hover:glass-strong transition-all duration-300">
+                    <div 
+                      className="w-full h-40 bg-cover bg-center rounded-lg mb-4"
+                      style={{ backgroundImage: `url(${project.imageUrl})` }}
+                    />
+                    <h3 className="font-semibold mb-2">{project.title}</h3>
+                    <p className="text-sm text-muted-foreground mb-3">{project.description}</p>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {project.tags.map((tag) => (
+                        <span 
+                          key={tag}
+                          className="px-2 py-1 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs rounded-md"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className={`text-xs px-2 py-1 rounded-full ${
+                        project.status === 'completed' 
+                          ? 'bg-green-500/20 text-green-700 dark:text-green-400' 
+                          : 'bg-amber-500/20 text-amber-700 dark:text-amber-400'
+                      }`}>
+                        {project.status === 'completed' ? 'Completed' : 'In Progress'}
+                      </span>
+                      <Button variant="ghost" size="sm">
+                        View Details
+                      </Button>
+                    </div>
                   </div>
-                  <div className="flex items-center">
-                    <MapPin className="h-4 w-4 mr-1" />
-                    {bid.location}
-                  </div>
-                  <div className="flex items-center">
-                    <Calendar className="h-4 w-4 mr-1" />
-                    {formatRelativeTime(bid.submittedAt)}
-                  </div>
-                </div>
-              </div>
-              <div className="text-right">
-                <div className="text-lg font-bold mb-2">{formatCurrency(bid.amount)}</div>
-                <div className={`text-xs px-3 py-1 rounded-full ${
-                  bid.status === "pending" ? "bg-yellow-500/20 text-yellow-500" :
-                  bid.status === "accepted" ? "bg-green-500/20 text-green-500" :
-                  "bg-red-500/20 text-red-500"
-                }`}>
-                  {bid.status.toUpperCase()}
-                </div>
+                ))}
               </div>
             </div>
-            
-            <div className="flex justify-end space-x-2 mt-4">
-              <Button variant="ghost" size="sm">
-                <Eye className="h-4 w-4 mr-2" />
-                View Project
-              </Button>
-              {bid.status === "pending" && (
-                <Button variant="outline" size="sm" className="glass">
-                  <Edit3 className="h-4 w-4 mr-2" />
-                  Edit Bid
-                </Button>
-              )}
+
+            {/* Progress Tracker Sidebar */}
+            <div className="lg:col-span-1">
+              <div className="sticky top-8">
+                <ProgressTracker />
+              </div>
             </div>
           </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
+        )}
 
-function ProjectsTab({ projects }: { 
-  projects: Array<{
-    id: string;
-    title: string;
-    client: string;
-    completedAt: Date;
-    value: number;
-    rating: number;
-    image: string;
-  }> 
-}) {
-  return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-bold">My Projects</h2>
-        <Button variant="glass" size="sm">
-          <Plus className="h-4 w-4 mr-2" />
-          Add Project
-        </Button>
-      </div>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        {projects.map((project) => (
+        {activeTab === "analytics" && (
           <motion.div
-            key={project.id}
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="glass-card overflow-hidden hover:scale-105 transition-transform"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
           >
-            <div 
-              style={{ backgroundImage: `url(${project.image})` }}
-              className="w-full h-48 bg-cover bg-center"
-            />
-            <div className="p-6">
-              <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
-              <p className="text-sm text-muted-foreground mb-3">
-                Client: {project.client}
-              </p>
-              <div className="flex items-center justify-between mb-4">
-                <div className="flex items-center space-x-1">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} className={`h-4 w-4 ${
-                      i < project.rating ? "text-yellow-500 fill-current" : "text-gray-300"
-                    }`} />
-                  ))}
-                  <span className="text-sm ml-1">({project.rating})</span>
-                </div>
-                <div className="text-sm font-medium">{formatCurrency(project.value)}</div>
-              </div>
-              <div className="text-xs text-muted-foreground">
-                Completed {formatRelativeTime(project.completedAt)}
-              </div>
-            </div>
+            <PortfolioPanel editable={true} />
           </motion.div>
-        ))}
-      </div>
-    </div>
-  );
-}
-
-function SettingsTab() {
-  return (
-    <div className="space-y-6">
-      <h2 className="text-2xl font-bold">Settings</h2>
-      
-      <div className="grid gap-6">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="glass-card p-6"
-        >
-          <h3 className="text-lg font-semibold mb-4">Account Settings</h3>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Email Notifications</div>
-                <div className="text-sm text-muted-foreground">Receive notifications about new projects</div>
-              </div>
-              <input type="checkbox" className="rounded" defaultChecked />
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">SMS Notifications</div>
-                <div className="text-sm text-muted-foreground">Receive SMS for urgent updates</div>
-              </div>
-              <input type="checkbox" className="rounded" />
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Profile Visibility</div>
-                <div className="text-sm text-muted-foreground">Make your profile visible to clients</div>
-              </div>
-              <input type="checkbox" className="rounded" defaultChecked />
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="glass-card p-6"
-        >
-          <h3 className="text-lg font-semibold mb-4">Privacy Settings</h3>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Use Alias</div>
-                <div className="text-sm text-muted-foreground">Display alias name instead of real name</div>
-              </div>
-              <input type="checkbox" className="rounded" />
-            </div>
-            <div className="flex items-center justify-between">
-              <div>
-                <div className="font-medium">Hide Contact Info</div>
-                <div className="text-sm text-muted-foreground">Only show contact info to accepted clients</div>
-              </div>
-              <input type="checkbox" className="rounded" defaultChecked />
-            </div>
-          </div>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="glass-card p-6"
-        >
-          <h3 className="text-lg font-semibold mb-4 text-red-500">Danger Zone</h3>
-          <div className="space-y-4">
-            <Button variant="outline" className="w-full border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-              Deactivate Account
-            </Button>
-            <Button variant="outline" className="w-full border-red-500 text-red-500 hover:bg-red-500 hover:text-white">
-              Delete Account
-            </Button>
-          </div>
-        </motion.div>
-      </div>
-    </div>
+        )}
+      </PageContainer>
+    </AuthLayout>
   );
 }

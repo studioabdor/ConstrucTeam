@@ -13,8 +13,8 @@ const buttonVariants = cva(
         secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80",
         ghost: "hover:bg-accent hover:text-accent-foreground",
         link: "text-primary underline-offset-4 hover:underline",
-        glass: "backdrop-blur-md bg-white/10 dark:bg-black/10 border border-white/20 dark:border-white/10 hover:bg-white/20 dark:hover:bg-white/5 text-white dark:text-white",
-        glassSecondary: "backdrop-blur-md bg-black/10 dark:bg-white/10 border border-black/20 dark:border-white/20 hover:bg-black/20 dark:hover:bg-white/20 text-black dark:text-white",
+        glass: "backdrop-blur-md bg-gradient-to-r from-amber-500/15 to-emerald-500/15 dark:from-amber-500/10 dark:to-emerald-500/10 border border-amber-500/30 dark:border-amber-500/20 hover:from-amber-500/25 hover:to-emerald-500/25 dark:hover:from-amber-500/15 dark:hover:to-emerald-500/15 text-foreground",
+        glassSecondary: "backdrop-blur-md bg-emerald-500/10 dark:bg-emerald-500/5 border border-emerald-500/30 dark:border-emerald-500/20 hover:bg-emerald-500/20 dark:hover:bg-emerald-500/10 text-foreground",
       },
       size: {
         default: "h-10 px-4 py-2",

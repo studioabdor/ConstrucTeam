@@ -4,8 +4,8 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Building2, Users, Sparkles, ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AuthModal } from "@/components/auth/auth-modal";
+import { FloatingThemeToggle } from "@/components/ui/floating-theme-toggle";
 // import Link from "next/link";
 
 export default function LandingPage() {
@@ -54,7 +54,7 @@ export default function LandingPage() {
             repeat: Infinity,
             ease: "easeInOut",
           }}
-          className="absolute top-20 left-10 w-72 h-72 bg-blue-500/10 rounded-full blur-3xl"
+          className="absolute top-20 left-10 w-72 h-72 bg-amber-500/10 rounded-full blur-3xl"
         />
         <motion.div
           animate={{
@@ -66,7 +66,7 @@ export default function LandingPage() {
             ease: "easeInOut",
             delay: 2,
           }}
-          className="absolute top-40 right-10 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"
+          className="absolute top-40 right-10 w-96 h-96 bg-emerald-500/10 rounded-full blur-3xl"
         />
         <motion.div
           animate={{
@@ -78,7 +78,7 @@ export default function LandingPage() {
             ease: "easeInOut",
             delay: 4,
           }}
-          className="absolute bottom-20 left-1/3 w-80 h-80 bg-pink-500/10 rounded-full blur-3xl"
+          className="absolute bottom-20 left-1/3 w-80 h-80 bg-slate-500/10 rounded-full blur-3xl"
         />
       </div>
 
@@ -94,13 +94,17 @@ export default function LandingPage() {
           whileHover={{ scale: 1.05 }}
           transition={{ type: "spring", stiffness: 400, damping: 17 }}
         >
-          <Building2 className="h-8 w-8 text-blue-500" />
+          <Building2 className="h-8 w-8 text-amber-500" />
           <span className="text-2xl font-bold gradient-text">ConstrucTeam</span>
         </motion.div>
 
         <div className="flex items-center space-x-4">
-          <ThemeToggle />
-          <Button variant="ghost" size="sm" className="hidden md:inline-flex">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="hidden md:inline-flex"
+            onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
+          >
             About
           </Button>
           <Button 
@@ -129,7 +133,7 @@ export default function LandingPage() {
         className="relative z-10 flex flex-col items-center justify-center px-6 pt-20 pb-32 text-center"
       >
         <motion.div variants={itemVariants} className="max-w-4xl mx-auto space-y-8">
-          <motion.h1 className="text-5xl md:text-7xl font-bold leading-tight">
+          <motion.h1 className="font-display text-hero leading-tight">
             <span className="gradient-text">Connect.</span>{" "}
             <span className="gradient-text">Create.</span>{" "}
             <span className="gradient-text">Construct.</span>
@@ -137,7 +141,7 @@ export default function LandingPage() {
 
           <motion.p
             variants={itemVariants}
-            className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
+            className="font-body text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
             India&apos;s premier matchmaking platform for the real estate and construction industry.
             Connect with verified architects, engineers, and specialized consultants through our
@@ -332,6 +336,118 @@ export default function LandingPage() {
             </div>
           </div>
         </motion.div>
+
+        {/* About Section */}
+        <motion.div
+          id="about"
+          variants={itemVariants}
+          className="mt-32 max-w-6xl mx-auto mb-20"
+        >
+          <motion.div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">About ConstrucTeam</h2>
+            <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
+              Revolutionizing India's construction industry by connecting visionary clients with skilled professionals
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            {/* Our Story */}
+            <motion.div
+              initial={{ opacity: 0, x: -30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="space-y-6"
+            >
+              <div className="glass-card p-8">
+                <h3 className="text-2xl font-bold mb-4">Our Mission</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  To democratize access to quality construction and architectural services across India. 
+                  We believe every project, from a small home renovation to a large commercial complex, 
+                  deserves access to verified, skilled professionals.
+                </p>
+              </div>
+              
+              <div className="glass-card p-8">
+                <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
+                <p className="text-muted-foreground leading-relaxed">
+                  To become India's most trusted platform where construction dreams meet expert execution. 
+                  We envision a future where finding the right consultant is as easy as a few clicks.
+                </p>
+              </div>
+            </motion.div>
+
+            {/* Key Features */}
+            <motion.div
+              initial={{ opacity: 0, x: 30 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.8, duration: 0.6 }}
+              className="space-y-6"
+            >
+              <div className="glass-card p-8">
+                <h3 className="text-2xl font-bold mb-6">What Sets Us Apart</h3>
+                <div className="space-y-4">
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Verified Professionals</h4>
+                      <p className="text-sm text-muted-foreground">Every consultant undergoes rigorous verification for credentials and past work</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-purple-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Portfolio-First Approach</h4>
+                      <p className="text-sm text-muted-foreground">Visual portfolios help clients make informed decisions based on actual work</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-green-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Transparent Process</h4>
+                      <p className="text-sm text-muted-foreground">Clear pricing, timelines, and communication throughout the project lifecycle</p>
+                    </div>
+                  </div>
+                  <div className="flex items-start space-x-3">
+                    <div className="w-2 h-2 bg-orange-500 rounded-full mt-2 flex-shrink-0"></div>
+                    <div>
+                      <h4 className="font-semibold mb-1">Local Expertise</h4>
+                      <p className="text-sm text-muted-foreground">Deep understanding of Indian construction practices, regulations, and local requirements</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+
+          {/* Team Values */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.0, duration: 0.6 }}
+            className="mt-16"
+          >
+            <div className="glass-card p-8 text-center">
+              <h3 className="text-2xl font-bold mb-6">Built for India, By Indians</h3>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                  <div className="text-3xl">🇮🇳</div>
+                  <h4 className="font-semibold">Local Understanding</h4>
+                  <p className="text-sm text-muted-foreground">Deep knowledge of Indian construction standards and practices</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-3xl">🤝</div>
+                  <h4 className="font-semibold">Trust & Transparency</h4>
+                  <p className="text-sm text-muted-foreground">Building long-term relationships through honest communication</p>
+                </div>
+                <div className="space-y-2">
+                  <div className="text-3xl">🚀</div>
+                  <h4 className="font-semibold">Innovation First</h4>
+                  <p className="text-sm text-muted-foreground">Leveraging technology to solve traditional industry challenges</p>
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
       </motion.main>
 
       {/* Footer */}
@@ -389,6 +505,8 @@ export default function LandingPage() {
         defaultUserType={authModal.userType}
         defaultMode={authModal.mode}
       />
+
+      <FloatingThemeToggle />
     </div>
   );
 }
