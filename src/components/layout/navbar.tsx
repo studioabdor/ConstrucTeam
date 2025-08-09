@@ -30,6 +30,7 @@ export function Navbar({ showAuthButtons = true, onAuthModalOpen }: NavbarProps)
   const { user, userProfile, logout } = useAuth();
   const router = useRouter();
   const [userMenuOpen, setUserMenuOpen] = useState(false);
+  const [notificationOpen, setNotificationOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   const handleLogoClick = () => {
@@ -108,10 +109,65 @@ export function Navbar({ showAuthButtons = true, onAuthModalOpen }: NavbarProps)
                 )}
 
                 {/* Notifications */}
-                <Button variant="ghost" size="icon" className="relative">
-                  <Bell className="h-5 w-5" />
-                  <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs"></span>
-                </Button>
+                <div className="relative">
+                  <Button 
+                    variant="ghost" 
+                    size="icon" 
+                    className="relative"
+                    onClick={() => setNotificationOpen(!notificationOpen)}
+                  >
+                    <Bell className="h-5 w-5" />
+                    <span className="absolute -top-1 -right-1 h-3 w-3 bg-red-500 rounded-full text-xs"></span>
+                  </Button>
+
+                  {/* Notification Dropdown */}
+                  {notificationOpen && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: 10 }}
+                      className="absolute right-0 mt-2 w-80 glass-card p-4 shadow-xl z-50"
+                    >
+                      <div className="flex items-center justify-between mb-4">
+                        <h3 className="font-semibold">Notifications</h3>
+                        <Button 
+                          variant="ghost" 
+                          size="sm"
+                          onClick={() => setNotificationOpen(false)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
+                      
+                      <div className="space-y-3 max-h-64 overflow-y-auto">
+                        {/* Sample notifications */}
+                        <div className="p-3 rounded-lg bg-amber-500/10 border border-amber-500/20">
+                          <p className="text-sm font-medium">New project inquiry</p>
+                          <p className="text-xs text-muted-foreground">Priya Sharma is interested in your services</p>
+                          <p className="text-xs text-muted-foreground mt-1">2 hours ago</p>
+                        </div>
+                        
+                        <div className="p-3 rounded-lg bg-emerald-500/10 border border-emerald-500/20">
+                          <p className="text-sm font-medium">Project completed</p>
+                          <p className="text-xs text-muted-foreground">Villa Design project marked as complete</p>
+                          <p className="text-xs text-muted-foreground mt-1">1 day ago</p>
+                        </div>
+                        
+                        <div className="p-3 rounded-lg bg-blue-500/10 border border-blue-500/20">
+                          <p className="text-sm font-medium">New review received</p>
+                          <p className="text-xs text-muted-foreground">5-star review from Rajesh Kumar</p>
+                          <p className="text-xs text-muted-foreground mt-1">3 days ago</p>
+                        </div>
+                      </div>
+                      
+                      <div className="mt-4 pt-3 border-t border-white/10">
+                        <Button variant="ghost" size="sm" className="w-full">
+                          View All Notifications
+                        </Button>
+                      </div>
+                    </motion.div>
+                  )}
+                </div>
 
                 {/* User Dropdown */}
                 <div className="relative">
@@ -137,7 +193,7 @@ export function Navbar({ showAuthButtons = true, onAuthModalOpen }: NavbarProps)
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-64 glass-card p-2 shadow-xl"
+                      className="absolute right-0 mt-2 w-64 glass-card p-2 shadow-xl z-50"
                     >
                       {/* User Info */}
                       <div className="px-3 py-2 border-b border-white/10">

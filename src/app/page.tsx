@@ -1,6 +1,6 @@
 "use client";
 
-// import { useState } from "react"; // Removed - not needed
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { Building2, Users, Sparkles, ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -8,11 +8,11 @@ import { AuthLayout } from "@/components/auth/auth-layout";
 // import Link from "next/link";
 
 export default function LandingPage() {
-  // Auth modal state managed by AuthLayout
+  // Auth modal trigger function
+  const [triggerAuthModal, setTriggerAuthModal] = useState<{ isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' } | null>(null);
 
   const handleAuthModalOpen = (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => {
-    // Auth modal handled by AuthLayout
-    console.log('Auth modal requested:', type);
+    setTriggerAuthModal(type);
   };
 
   const containerVariants = {
@@ -83,48 +83,7 @@ export default function LandingPage() {
         />
       </div>
 
-      {/* Navigation */}
-      <motion.nav
-        initial={{ opacity: 0, y: -20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.6 }}
-        className="relative z-10 flex items-center justify-between p-6 lg:px-8"
-      >
-        <motion.div
-          className="flex items-center space-x-2"
-          whileHover={{ scale: 1.05 }}
-          transition={{ type: "spring", stiffness: 400, damping: 17 }}
-        >
-          <Building2 className="h-8 w-8 text-amber-500" />
-          <span className="text-2xl font-bold gradient-text">ConstrucTeam</span>
-        </motion.div>
-
-        <div className="flex items-center space-x-4">
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="hidden md:inline-flex"
-            onClick={() => document.getElementById('about')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            About
-          </Button>
-          <Button 
-            variant="ghost" 
-            size="sm" 
-            className="hidden md:inline-flex"
-            onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
-          >
-            How it Works
-          </Button>
-          <Button 
-            variant="outline" 
-            size="sm"
-            onClick={() => handleAuthModalOpen({ isOpen: true, userType: 'client', mode: 'signin' })}
-          >
-            Sign In
-          </Button>
-        </div>
-      </motion.nav>
+      {/* Navigation removed - using AuthLayout navbar instead */}
 
       {/* Hero Section */}
       <motion.main

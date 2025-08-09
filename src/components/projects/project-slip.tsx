@@ -45,6 +45,7 @@ interface ProjectSlipProps {
   onInterest?: () => void;
   onMessage?: () => void;
   onShare?: () => void;
+  onClick?: () => void;
   showActions?: boolean;
   className?: string;
 }
@@ -91,6 +92,7 @@ export function ProjectSlip({
   onInterest, 
   onMessage, 
   onShare, 
+  onClick,
   showActions = true,
   className = ""
 }: ProjectSlipProps) {
@@ -103,11 +105,15 @@ export function ProjectSlip({
       whileHover={{ 
         y: -4, 
         rotate: 1,
+        scale: 1.02,
         transition: { type: "spring", stiffness: 300, damping: 20 }
       }}
+      whileTap={{ scale: 0.98 }}
+      onClick={onClick}
       className={`
         relative p-6 rounded-lg border-2 shadow-lg hover:shadow-xl 
         transition-all duration-300 max-w-sm w-full
+        ${onClick ? 'cursor-pointer hover:ring-2 hover:ring-amber-400/50' : ''}
         ${slipColorClass}
         ${className}
       `}

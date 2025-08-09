@@ -106,10 +106,10 @@ export function DynamicBentoGrid({ items, className, maxColumns = 6 }: DynamicBe
       initial="hidden"
       animate="visible"
       className={cn(
-        "grid gap-4 auto-rows-[120px]", // Base row height
-        maxColumns === 3 && "grid-cols-2 md:grid-cols-3",
-        maxColumns === 4 && "grid-cols-2 md:grid-cols-4",
-        maxColumns === 6 && "grid-cols-2 md:grid-cols-6",
+        "grid gap-4 auto-rows-[140px] w-full overflow-hidden", // Increased row height and prevent overflow
+        maxColumns === 3 && "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3",
+        maxColumns === 4 && "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4",
+        maxColumns === 6 && "grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6",
         className
       )}
     >
