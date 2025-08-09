@@ -36,7 +36,7 @@ const projectSchema = z.object({
     "structural",
     "mep",
     "consultation"
-  ], { required_error: "Please select a project category" }),
+  ], { message: "Please select a project category" }),
   subcategory: z.string().optional(),
   location: z.object({
     address: z.string().min(1, "Address is required"),
