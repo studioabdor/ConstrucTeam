@@ -4,16 +4,13 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
   Briefcase, 
-  Eye, 
   DollarSign,
   Building2,
   Settings,
   Plus,
   BarChart3,
   Clock,
-  CheckCircle,
   Award,
-  MessageCircle,
   Star
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

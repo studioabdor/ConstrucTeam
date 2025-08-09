@@ -36,7 +36,7 @@ const projectSchema = z.object({
   location: z.object({
     city: z.string().min(2, "City is required"),
     state: z.string().min(2, "State is required"),
-    pincode: z.string().optional()
+    pincode: z.string().min(1, "Pincode is required")
   }),
   budget: z.object({
     min: z.number().min(1000, "Minimum budget should be at least ₹1,000"),
@@ -50,7 +50,7 @@ const projectSchema = z.object({
   urgency: z.enum(["low", "medium", "high"], {
     message: "Please select urgency level"
   }),
-  size: z.string().optional(),
+  size: z.string().min(1, "Project size is required"),
   requirements: z.array(z.object({
     value: z.string().min(1, "Requirement cannot be empty")
   })).min(1, "At least one requirement is needed")
@@ -107,7 +107,7 @@ export default function PostProjectPage() {
       },
       timeline: "",
       urgency: "medium",
-      size: "",
+      size: "1000-3000 sq ft",
       requirements: [{ value: "" }]
     }
   });
