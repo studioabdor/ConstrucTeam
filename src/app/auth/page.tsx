@@ -22,6 +22,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
+import { ConsultantProfile } from "@/types";
 // import { ConsultantOnboardingForm } from "@/types";
 
 const onboardingSchema = z.object({
@@ -180,7 +181,12 @@ export default function AuthPage() {
         services: cleanData.services,
         specializations: cleanData.specializations,
         experience: cleanData.experience,
-        location: cleanData.location,
+        location: {
+          address: `${cleanData.location.city}, ${cleanData.location.state}`,
+          city: cleanData.location.city,
+          state: cleanData.location.state,
+          pincode: cleanData.location.pincode,
+        },
         preferredProjectSize: cleanData.preferredProjectSize,
         useAlias: cleanData.useAlias,
         aliasName: cleanData.useAlias ? cleanData.aliasName : undefined,
@@ -188,7 +194,7 @@ export default function AuthPage() {
         rating: 0,
         completedProjects: 0,
         portfolio: [],
-      });
+      } as Partial<ConsultantProfile>);
 
       router.push("/feed");
     } catch (error) {

@@ -23,7 +23,7 @@ interface AuthContextType {
   signIn: (email: string, password: string) => Promise<void>;
   signInWithGoogle: (userType: 'client' | 'consultant') => Promise<void>;
   logout: () => Promise<void>;
-  updateUserProfile: (data: Partial<AppUser>) => Promise<void>;
+  updateUserProfile: (data: Partial<AppUser> | Partial<ConsultantProfile> | Partial<ClientProfile>) => Promise<void>;
   refreshUserProfile: () => Promise<void>;
 }
 
@@ -164,7 +164,7 @@ export function useAuthContext(): AuthContextType {
   };
 
   // Update user profile
-  const updateUserProfile = async (data: Partial<AppUser>) => {
+  const updateUserProfile = async (data: Partial<AppUser> | Partial<ConsultantProfile> | Partial<ClientProfile>) => {
     if (!user || !userProfile) return;
 
     try {
