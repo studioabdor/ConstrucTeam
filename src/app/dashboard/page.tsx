@@ -43,6 +43,7 @@ import { PageContainer } from "@/components/layout/page-container";
 import { Recommendations } from "@/components/dashboard/recommendations";
 import { ProgressTracker } from "@/components/dashboard/progress-tracker";
 import { PortfolioPanel } from "@/components/dashboard/portfolio-panel";
+import { ActivityFeed } from "@/components/dashboard/activity-feed";
 
 // Mock data - In real app, this would come from Firebase
 const mockStats = {
@@ -113,7 +114,7 @@ const mockActivities = [
 
 export default function Dashboard() {
   const { user, userProfile } = useAuth();
-  const [activeTab, setActiveTab] = useState<"overview" | "projects" | "analytics">("overview");
+  const [activeTab, setActiveTab] = useState<"overview" | "projects" | "analytics" | "activity">("overview");
 
   if (!user) {
     return (
@@ -238,13 +239,17 @@ export default function Dashboard() {
       onClick: () => console.log("Open project details")
     },
 
-    // Activity feed - tall box
+    // Activity feed - wide box for better visibility
     {
       id: "recent-activity",
-      size: "tall",
+      size: "wide",
       contentType: "activity",
       priority: 3,
-      children: <BentoActivity activities={mockActivities} />
+      children: (
+        <div className="h-full">
+          <ActivityFeed limit={3} showHeader={false} />
+        </div>
+      )
     },
 
     // Quick actions - medium boxes
@@ -314,6 +319,13 @@ export default function Dashboard() {
       icon: <Award className="h-4 w-4" />,
       active: activeTab === "analytics",
       onClick: () => setActiveTab("analytics")
+    },
+    { 
+      id: "activity", 
+      label: "Activity", 
+      icon: <Clock className="h-4 w-4" />,
+      active: activeTab === "activity",
+      onClick: () => setActiveTab("activity")
     }
   ];
 
@@ -416,6 +428,16 @@ export default function Dashboard() {
             transition={{ duration: 0.6 }}
           >
             <PortfolioPanel editable={true} />
+          </motion.div>
+        )}
+
+        {activeTab === "activity" && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+          >
+            <ActivityFeed />
           </motion.div>
         )}
       </PageContainer>

@@ -4,8 +4,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { Building2, Users, Sparkles, ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AuthModal } from "@/components/auth/auth-modal";
-import { FloatingThemeToggle } from "@/components/ui/floating-theme-toggle";
+import { AuthLayout } from "@/components/auth/auth-layout";
 // import Link from "next/link";
 
 export default function LandingPage() {
@@ -14,6 +13,10 @@ export default function LandingPage() {
     userType: 'client' as 'client' | 'consultant',
     mode: 'signin' as 'signin' | 'signup'
   });
+
+  const handleAuthModalOpen = (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => {
+    setAuthModal(type);
+  };
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -42,7 +45,8 @@ export default function LandingPage() {
   ];
 
   return (
-    <div className="min-h-screen relative overflow-hidden">
+    <AuthLayout onAuthModalOpen={handleAuthModalOpen}>
+      <div className="min-h-screen relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
@@ -118,7 +122,7 @@ export default function LandingPage() {
           <Button 
             variant="outline" 
             size="sm"
-            onClick={() => setAuthModal({ isOpen: true, userType: 'client', mode: 'signin' })}
+            onClick={() => handleAuthModalOpen({ isOpen: true, userType: 'client', mode: 'signin' })}
           >
             Sign In
           </Button>
@@ -161,7 +165,7 @@ export default function LandingPage() {
                 variant="glass" 
                 size="xl" 
                 className="group"
-                onClick={() => setAuthModal({ isOpen: true, userType: 'client', mode: 'signup' })}
+                onClick={() => handleAuthModalOpen({ isOpen: true, userType: 'client', mode: 'signup' })}
               >
                 <Sparkles className="mr-2 h-5 w-5" />
                 Post a Project
@@ -178,7 +182,7 @@ export default function LandingPage() {
                 variant="glassSecondary" 
                 size="xl" 
                 className="group"
-                onClick={() => setAuthModal({ isOpen: true, userType: 'consultant', mode: 'signup' })}
+                onClick={() => handleAuthModalOpen({ isOpen: true, userType: 'consultant', mode: 'signup' })}
               >
                 <Users className="mr-2 h-5 w-5" />
                 Join as Consultant
@@ -499,14 +503,7 @@ export default function LandingPage() {
         </div>
       </motion.footer>
 
-      <AuthModal
-        isOpen={authModal.isOpen}
-        onClose={() => setAuthModal(prev => ({ ...prev, isOpen: false }))}
-        defaultUserType={authModal.userType}
-        defaultMode={authModal.mode}
-      />
-
-      <FloatingThemeToggle />
-    </div>
+      </div>
+    </AuthLayout>
   );
 }

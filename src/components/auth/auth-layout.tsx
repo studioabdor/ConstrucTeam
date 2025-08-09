@@ -8,9 +8,10 @@ interface AuthLayoutProps {
   children: ReactNode;
   requireAuth?: boolean;
   className?: string;
+  onAuthModalOpen?: (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => void;
 }
 
-export function AuthLayout({ children, requireAuth = false, className }: AuthLayoutProps) {
+export function AuthLayout({ children, requireAuth = false, className, onAuthModalOpen }: AuthLayoutProps) {
   const [authModal, setAuthModal] = useState<{
     isOpen: boolean;
     userType: 'client' | 'consultant';
@@ -21,10 +22,16 @@ export function AuthLayout({ children, requireAuth = false, className }: AuthLay
     mode: 'signin'
   });
 
+  const handleAuthModalOpen = (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => {
+    setAuthModal(type);
+    onAuthModalOpen?.(type);
+  };
+
   return (
     <AppLayout 
       showAuthButtons={!requireAuth}
       className={className}
+      onAuthModalOpen={handleAuthModalOpen}
     >
       {children}
       

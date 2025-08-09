@@ -8,17 +8,15 @@ interface AppLayoutProps {
   children: ReactNode;
   showAuthButtons?: boolean;
   className?: string;
+  onAuthModalOpen?: (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => void;
 }
 
-export function AppLayout({ children, showAuthButtons = true, className }: AppLayoutProps) {
+export function AppLayout({ children, showAuthButtons = true, className, onAuthModalOpen }: AppLayoutProps) {
   return (
     <div className={`min-h-screen bg-background ${className || ''}`}>
       <Navbar 
         showAuthButtons={showAuthButtons}
-        onAuthModalOpen={(authState) => {
-          // This will be handled by individual pages that need auth modal
-          console.log('Auth modal requested:', authState);
-        }}
+        onAuthModalOpen={onAuthModalOpen}
       />
       <main className="relative">
         {children}
