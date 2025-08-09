@@ -237,15 +237,15 @@ If you found this project helpful, please give it a ⭐️ on GitHub!
 
 ## 📞 **Connect With Us**
 
-- **GitHub**: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- **GitHub**: [@studioabdor](https://github.com/studioabdor)
 - **LinkedIn**: [Your LinkedIn](https://linkedin.com/in/your-profile)
 - **Twitter**: [@your_twitter](https://twitter.com/your_twitter)
 
 ## 📈 **Project Stats**
 
-![GitHub Repo stars](https://img.shields.io/github/stars/YOUR_USERNAME/ConstrucTeam?style=social)
-![GitHub forks](https://img.shields.io/github/forks/YOUR_USERNAME/ConstrucTeam?style=social)
-![GitHub watchers](https://img.shields.io/github/watchers/YOUR_USERNAME/ConstrucTeam?style=social)
+![GitHub Repo stars](https://img.shields.io/github/stars/studioabdor/ConstrucTeam?style=social)
+![GitHub forks](https://img.shields.io/github/forks/studioabdor/ConstrucTeam?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/studioabdor/ConstrucTeam?style=social)
 
 ---
 
