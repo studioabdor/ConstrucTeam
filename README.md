@@ -1,8 +1,24 @@
 # 🏗️ ConstrucTeam
 
-> **Connect. Create. Construct.**
+<div align="center">
 
-A modern, curated consultant-client matchmaking platform for the real estate and construction industry in India. Built with cutting-edge technology and stunning glassmorphic UI design.
+![ConstrucTeam Logo](https://img.shields.io/badge/ConstrucTeam-Connect%20Create%20Construct-blue?style=for-the-badge&logo=building&logoColor=white)
+
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js&logoColor=white)](https://nextjs.org/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Firebase](https://img.shields.io/badge/Firebase-Auth%20%26%20Firestore-orange?style=for-the-badge&logo=firebase&logoColor=white)](https://firebase.google.com/)
+[![Tailwind CSS](https://img.shields.io/badge/Tailwind-CSS-blue?style=for-the-badge&logo=tailwind-css&logoColor=white)](https://tailwindcss.com/)
+[![Framer Motion](https://img.shields.io/badge/Framer-Motion-pink?style=for-the-badge&logo=framer&logoColor=white)](https://www.framer.com/motion/)
+
+**Connect. Create. Construct.**
+
+*A modern, curated consultant-client matchmaking platform for the real estate and construction industry in India. Built with cutting-edge technology and stunning glassmorphic UI design.*
+
+[🚀 Live Demo](https://constructeam.vercel.app) • [📖 Documentation](#-getting-started) • [🎨 Design System](#-design-philosophy)
+
+</div>
+
+---
 
 ## ✨ Features
 
@@ -215,6 +231,28 @@ This is an MVP built for demonstration. For production deployment:
 
 This project is built as a demonstration of modern web development practices.
 
+## 🌟 **Star the Repository**
+
+If you found this project helpful, please give it a ⭐️ on GitHub!
+
+## 📞 **Connect With Us**
+
+- **GitHub**: [@YOUR_USERNAME](https://github.com/YOUR_USERNAME)
+- **LinkedIn**: [Your LinkedIn](https://linkedin.com/in/your-profile)
+- **Twitter**: [@your_twitter](https://twitter.com/your_twitter)
+
+## 📈 **Project Stats**
+
+![GitHub Repo stars](https://img.shields.io/github/stars/YOUR_USERNAME/ConstrucTeam?style=social)
+![GitHub forks](https://img.shields.io/github/forks/YOUR_USERNAME/ConstrucTeam?style=social)
+![GitHub watchers](https://img.shields.io/github/watchers/YOUR_USERNAME/ConstrucTeam?style=social)
+
 ---
 
-**Made with ❤️ for India's builders** | ConstrucTeam Team
+<div align="center">
+
+**Made with ❤️ for India's builders**
+
+*ConstrucTeam Team • 2024*
+
+</div>
