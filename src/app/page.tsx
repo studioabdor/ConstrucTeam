@@ -103,7 +103,12 @@ export default function LandingPage() {
           <Button variant="ghost" size="sm" className="hidden md:inline-flex">
             About
           </Button>
-          <Button variant="ghost" size="sm" className="hidden md:inline-flex">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            className="hidden md:inline-flex"
+            onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })}
+          >
             How it Works
           </Button>
           <Button 
@@ -176,6 +181,91 @@ export default function LandingPage() {
                 <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </motion.div>
+          </motion.div>
+        </motion.div>
+
+        {/* How it Works Section */}
+        <motion.div
+          id="how-it-works"
+          variants={itemVariants}
+          className="mt-32 max-w-6xl mx-auto"
+        >
+          <motion.div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">How it Works</h2>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+              Simple steps to connect with the right professionals for your construction needs
+            </p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Step 1 - For Clients */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.6 }}
+              className="glass-card p-8 text-center"
+            >
+              <div className="w-16 h-16 bg-blue-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl font-bold text-blue-500">1</span>
+              </div>
+              <h3 className="text-xl font-bold mb-4">Post Your Project</h3>
+              <p className="text-muted-foreground mb-4">
+                Share your construction project details, budget, and timeline. Our platform makes it easy to communicate your vision.
+              </p>
+              <div className="text-sm text-blue-500 font-medium">For Clients</div>
+            </motion.div>
+
+            {/* Step 2 - Matching */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.6 }}
+              className="glass-card p-8 text-center"
+            >
+              <div className="w-16 h-16 bg-purple-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl font-bold text-purple-500">2</span>
+              </div>
+              <h3 className="text-xl font-bold mb-4">Get Matched & Browse</h3>
+              <p className="text-muted-foreground mb-4">
+                Receive proposals from verified consultants, or browse our curated feed of professionals and their portfolios.
+              </p>
+              <div className="text-sm text-purple-500 font-medium">Smart Matching</div>
+            </motion.div>
+
+            {/* Step 3 - For Consultants */}
+            <motion.div
+              initial={{ opacity: 0, y: 30 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.0, duration: 0.6 }}
+              className="glass-card p-8 text-center"
+            >
+              <div className="w-16 h-16 bg-green-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+                <span className="text-2xl font-bold text-green-500">3</span>
+              </div>
+              <h3 className="text-xl font-bold mb-4">Connect & Collaborate</h3>
+              <p className="text-muted-foreground mb-4">
+                Start conversations, negotiate terms, and bring your construction projects to life with the perfect team.
+              </p>
+              <div className="text-sm text-green-500 font-medium">For Everyone</div>
+            </motion.div>
+          </div>
+
+          {/* Additional Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.6 }}
+            className="mt-16 text-center"
+          >
+            <div className="glass-card p-6 max-w-2xl mx-auto">
+              <h4 className="text-lg font-bold mb-3">Why Choose ConstrucTeam?</h4>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+                <div>✓ Verified professionals only</div>
+                <div>✓ Secure payment system</div>
+                <div>✓ Portfolio-based selection</div>
+                <div>✓ Real-time communication</div>
+              </div>
+            </div>
           </motion.div>
         </motion.div>
 
@@ -267,7 +357,7 @@ export default function LandingPage() {
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li><a href="#" className="hover:text-foreground transition-colors">Post Project</a></li>
                 <li><a href="#" className="hover:text-foreground transition-colors">Browse Consultants</a></li>
-                <li><a href="#" className="hover:text-foreground transition-colors">How it Works</a></li>
+                <li><button onClick={() => document.getElementById('how-it-works')?.scrollIntoView({ behavior: 'smooth' })} className="hover:text-foreground transition-colors text-left">How it Works</button></li>
               </ul>
             </div>
             <div>
