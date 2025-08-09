@@ -46,6 +46,10 @@ export function useAuthContext(): AuthContextType {
 
   // Fetch user profile from Firestore
   const fetchUserProfile = async (uid: string): Promise<AppUser | null> => {
+    if (!db) {
+      console.warn('Firestore not available - demo mode');
+      return null;
+    }
     try {
       const userDoc = await getDoc(doc(db, 'users', uid));
       if (userDoc.exists()) {
@@ -103,6 +107,9 @@ export function useAuthContext(): AuthContextType {
 
   // Sign up with email and password
   const signUp = async (email: string, password: string, userType: 'client' | 'consultant') => {
+    if (!auth) {
+      throw new Error('Authentication not available - please configure Firebase');
+    }
     try {
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
@@ -201,6 +208,11 @@ export function useAuthContext(): AuthContextType {
 
   // Listen to auth state changes
   useEffect(() => {
+    if (!auth) {
+      setLoading(false);
+      return;
+    }
+    
     const unsubscribe = onAuthStateChanged(auth, async (user) => {
       setUser(user);
       
