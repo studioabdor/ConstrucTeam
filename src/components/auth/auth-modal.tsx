@@ -10,6 +10,7 @@ import { useAuth } from '@/hooks/useAuth';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
+import { useRouter } from 'next/navigation';
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -40,7 +41,8 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
   const [mode, setMode] = useState<'signin' | 'signup'>(defaultMode);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp, signInWithGoogle } = useAuth();
+  const { signIn, signUp, signInWithGoogle, userProfile } = useAuth();
+  const router = useRouter();
 
   const signInForm = useForm<SignInFormData>({
     resolver: zodResolver(signInSchema),
@@ -58,6 +60,10 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
     try {
       await signIn(data.email, data.password);
       onClose();
+      // Navigate to appropriate page after successful sign-in
+      setTimeout(() => {
+        router.push('/feed');
+      }, 100);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'An error occurred';
       signInForm.setError('root', { message: errorMessage });
@@ -71,6 +77,14 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
     try {
       await signUp(data.email, data.password, data.userType);
       onClose();
+      // Navigate based on user type after successful sign-up
+      setTimeout(() => {
+        if (data.userType === 'consultant') {
+          router.push('/auth?type=consultant');
+        } else {
+          router.push('/feed');
+        }
+      }, 100);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'An error occurred';
       signUpForm.setError('root', { message: errorMessage });
@@ -84,6 +98,14 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
     try {
       await signInWithGoogle(userType);
       onClose();
+      // Navigate based on user type and whether it's a new user
+      setTimeout(() => {
+        if (userType === 'consultant') {
+          router.push('/auth?type=consultant');
+        } else {
+          router.push('/feed');
+        }
+      }, 100);
     } catch (error: unknown) {
       const form = mode === 'signin' ? signInForm : signUpForm;
       const errorMessage = error instanceof Error ? error.message : 'An error occurred';
