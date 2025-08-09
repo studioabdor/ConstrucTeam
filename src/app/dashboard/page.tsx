@@ -399,7 +399,24 @@ export default function DashboardPage() {
   );
 }
 
-function ProfileTab({ userProfile, isEditing, setIsEditing }: { userProfile: any; isEditing: boolean; setIsEditing: (editing: boolean) => void }) {
+function ProfileTab({ userProfile, isEditing, setIsEditing }: { 
+  userProfile: {
+    displayName?: string;
+    email: string;
+    useAlias?: boolean;
+    aliasName?: string;
+    specializations?: string[];
+    location?: { city: string; state: string };
+    experience?: number;
+    rating?: number;
+    completedProjects?: number;
+    isVerified?: boolean;
+    services?: string[];
+    preferredProjectSize?: string;
+  }; 
+  isEditing: boolean; 
+  setIsEditing: (editing: boolean) => void 
+}) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -522,7 +539,17 @@ function ProfileTab({ userProfile, isEditing, setIsEditing }: { userProfile: any
   );
 }
 
-function BidsTab({ bids }: { bids: Array<any> }) {
+function BidsTab({ bids }: { 
+  bids: Array<{
+    id: string;
+    projectTitle: string;
+    clientName: string;
+    amount: number;
+    status: string;
+    submittedAt: Date;
+    location: string;
+  }> 
+}) {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">My Bids</h2>
@@ -584,7 +611,17 @@ function BidsTab({ bids }: { bids: Array<any> }) {
   );
 }
 
-function ProjectsTab({ projects }: { projects: Array<any> }) {
+function ProjectsTab({ projects }: { 
+  projects: Array<{
+    id: string;
+    title: string;
+    client: string;
+    completedAt: Date;
+    value: number;
+    rating: number;
+    image: string;
+  }> 
+}) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">

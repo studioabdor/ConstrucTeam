@@ -15,8 +15,6 @@ import {
   ArrowRight,
   ArrowLeft,
   CheckCircle,
-  Eye,
-  EyeOff,
   Plus,
   X
 } from "lucide-react";

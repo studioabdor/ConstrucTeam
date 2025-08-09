@@ -3,7 +3,7 @@ import { cn } from "@/lib/utils";
 
 export interface InputProps
   extends React.InputHTMLAttributes<HTMLInputElement> {
-  // Add any additional props here if needed in the future
+    variant?: 'default' | 'glass';
 }
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
