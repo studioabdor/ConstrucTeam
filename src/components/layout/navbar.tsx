@@ -17,6 +17,7 @@ import {
 import { Button } from "@/components/ui/button";
 // Removed ThemeToggle - now using FloatingThemeToggle
 import { useAuth } from "@/hooks/useAuth";
+import { ConsultantProfile } from "@/types";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
@@ -123,8 +124,8 @@ export function Navbar({ showAuthButtons = true, onAuthModalOpen }: NavbarProps)
                       <User className="h-4 w-4 text-white" />
                     </div>
                     <span className="hidden md:block font-medium">
-                      {userProfile?.userType === 'consultant' && (userProfile as any)?.useAlias && (userProfile as any)?.aliasName 
-                        ? (userProfile as any).aliasName 
+                      {userProfile?.userType === 'consultant' && (userProfile as ConsultantProfile)?.useAlias && (userProfile as ConsultantProfile)?.aliasName 
+                        ? (userProfile as ConsultantProfile).aliasName 
                         : userProfile?.displayName || 'User'
                       }
                     </span>
