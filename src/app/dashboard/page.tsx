@@ -27,6 +27,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { formatCurrency, formatRelativeTime } from "@/lib/utils";
+import { ConsultantProfile } from "@/types";
 import Link from "next/link";
 
 // Mock data - In real app, this would come from Firebase
@@ -185,7 +186,7 @@ export default function DashboardPage() {
               <div className="flex items-center justify-between">
                 <div>
                   <h2 className="text-2xl font-bold mb-2">
-                    Welcome back, {userProfile.useAlias && userProfile.aliasName ? userProfile.aliasName : userProfile.displayName}! 👋
+                    Welcome back, {userProfile.userType === 'consultant' && (userProfile as ConsultantProfile).useAlias && (userProfile as ConsultantProfile).aliasName ? (userProfile as ConsultantProfile).aliasName : userProfile.displayName}! 👋
                   </h2>
                   <p className="text-muted-foreground">
                     Here&apos;s what&apos;s happening with your consultancy business
