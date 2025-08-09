@@ -8,14 +8,11 @@ import { AuthLayout } from "@/components/auth/auth-layout";
 // import Link from "next/link";
 
 export default function LandingPage() {
-  const [authModal, setAuthModal] = useState({ 
-    isOpen: false, 
-    userType: 'client' as 'client' | 'consultant',
-    mode: 'signin' as 'signin' | 'signup'
-  });
+  // Auth modal state managed by AuthLayout
 
   const handleAuthModalOpen = (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => {
-    setAuthModal(type);
+    // Auth modal handled by AuthLayout
+    console.log('Auth modal requested:', type);
   };
 
   const containerVariants = {
@@ -350,7 +347,7 @@ export default function LandingPage() {
           <motion.div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold gradient-text mb-4">About ConstrucTeam</h2>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-              Revolutionizing India's construction industry by connecting visionary clients with skilled professionals
+              Revolutionizing India&apos;s construction industry by connecting visionary clients with skilled professionals
             </p>
           </motion.div>
 
@@ -374,7 +371,7 @@ export default function LandingPage() {
               <div className="glass-card p-8">
                 <h3 className="text-2xl font-bold mb-4">Our Vision</h3>
                 <p className="text-muted-foreground leading-relaxed">
-                  To become India's most trusted platform where construction dreams meet expert execution. 
+                  To become India&apos;s most trusted platform where construction dreams meet expert execution. 
                   We envision a future where finding the right consultant is as easy as a few clicks.
                 </p>
               </div>

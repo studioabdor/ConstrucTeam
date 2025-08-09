@@ -6,7 +6,6 @@ import {
   Heart, 
   Star, 
   Eye, 
-  Share2, 
   Award, 
   TrendingUp, 
   UserPlus, 
@@ -14,7 +13,6 @@ import {
   CheckCircle,
   AlertCircle,
   FileText,
-  Camera,
   MapPin,
   DollarSign
 } from "lucide-react";

@@ -41,7 +41,7 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
   const [mode, setMode] = useState<'signin' | 'signup'>(defaultMode);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const { signIn, signUp, signInWithGoogle, userProfile } = useAuth();
+  const { signIn, signUp, signInWithGoogle } = useAuth();
   const router = useRouter();
 
   const signInForm = useForm<SignInFormData>({

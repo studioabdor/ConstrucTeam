@@ -3,16 +3,13 @@
 import { motion } from "framer-motion";
 import { 
   MapPin, 
-  Calendar, 
   DollarSign, 
   User, 
-  Building2, 
   Clock,
   Tag,
   FileText,
   Star,
   MessageCircle,
-  Heart,
   Share2
 } from "lucide-react";
 import { Button } from "@/components/ui/button";

@@ -3,38 +3,28 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
-  User, 
   Briefcase, 
-  Star, 
-  TrendingUp, 
   Eye, 
-  Calendar, 
   DollarSign,
   Building2,
-  MapPin,
   Settings,
-  Edit3,
   Plus,
   BarChart3,
   Clock,
   CheckCircle,
   Award,
   MessageCircle,
-  Heart,
-  Share2,
-  FileText,
-  Target
+  Star
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
-import { formatCurrency, formatRelativeTime } from "@/lib/utils";
+import { formatCurrency } from "@/lib/utils";
 import { ConsultantProfile } from "@/types";
 import { 
   DynamicBentoGrid, 
   BentoStat, 
   BentoProgress, 
-  BentoPortfolio, 
-  BentoActivity,
+  BentoPortfolio,
   type BentoItem 
 } from "@/components/ui/dynamic-bento-grid";
 import { AuthLayout } from "@/components/auth/auth-layout";
@@ -93,7 +83,7 @@ const mockActivities = [
     icon: <MessageCircle className="h-3 w-3" />
   },
   {
-    id: "2",
+    id: "2", 
     action: "Portfolio viewed by client",
     time: "4 hours ago", 
     icon: <Eye className="h-3 w-3" />
@@ -248,7 +238,7 @@ export default function Dashboard() {
       children: (
         <div className="h-full">
           <ActivityFeed limit={3} showHeader={false} />
-        </div>
+            </div>
       )
     },
 
@@ -264,7 +254,7 @@ export default function Dashboard() {
           <Plus className="h-8 w-8 text-emerald-500 mb-2" />
           <h3 className="font-semibold mb-1">Create New Post</h3>
           <p className="text-xs text-muted-foreground">Share your latest work</p>
-        </div>
+              </div>
       ),
       onClick: () => console.log("Create new post")
     },
@@ -279,7 +269,7 @@ export default function Dashboard() {
           <BarChart3 className="h-8 w-8 text-amber-500 mb-2" />
           <h3 className="font-semibold mb-1">View Analytics</h3>
           <p className="text-xs text-muted-foreground">Track your performance</p>
-        </div>
+            </div>
       ),
       onClick: () => setActiveTab("analytics")
     }
@@ -328,8 +318,8 @@ export default function Dashboard() {
       onClick: () => setActiveTab("activity")
     }
   ];
-
-  return (
+              
+              return (
     <AuthLayout requireAuth={true}>
       <PageHeader
         title={`Welcome back, ${consultantProfile?.useAlias && consultantProfile?.aliasName 
@@ -343,9 +333,9 @@ export default function Dashboard() {
 
       <PageContainer>
         {activeTab === "overview" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="grid grid-cols-1 lg:grid-cols-4 gap-8"
           >
@@ -356,21 +346,21 @@ export default function Dashboard() {
                 maxColumns={6}
                 className="mb-8"
               />
-            </div>
+                </div>
 
             {/* Right Sidebar - Recommendations */}
             <div className="lg:col-span-1">
               <div className="sticky top-8">
                 <Recommendations userType={userProfile?.userType || 'consultant'} />
+                </div>
               </div>
-            </div>
-          </motion.div>
+            </motion.div>
         )}
 
         {activeTab === "projects" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
             className="grid grid-cols-1 lg:grid-cols-3 gap-8"
           >
@@ -392,9 +382,9 @@ export default function Dashboard() {
                           className="px-2 py-1 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs rounded-md"
                         >
                           {tag}
-                        </span>
-                      ))}
-                    </div>
+                    </span>
+                  ))}
+                </div>
                     <div className="flex items-center justify-between">
                       <span className={`text-xs px-2 py-1 rounded-full ${
                         project.status === 'completed' 
@@ -403,42 +393,42 @@ export default function Dashboard() {
                       }`}>
                         {project.status === 'completed' ? 'Completed' : 'In Progress'}
                       </span>
-                      <Button variant="ghost" size="sm">
+              <Button variant="ghost" size="sm">
                         View Details
-                      </Button>
-                    </div>
-                  </div>
-                ))}
+        </Button>
               </div>
             </div>
+        ))}
+      </div>
+    </div>
 
             {/* Progress Tracker Sidebar */}
             <div className="lg:col-span-1">
               <div className="sticky top-8">
                 <ProgressTracker />
-              </div>
             </div>
-          </motion.div>
+          </div>
+        </motion.div>
         )}
 
         {activeTab === "analytics" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <PortfolioPanel editable={true} />
-          </motion.div>
+        </motion.div>
         )}
 
         {activeTab === "activity" && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
           >
             <ActivityFeed />
-          </motion.div>
+        </motion.div>
         )}
       </PageContainer>
     </AuthLayout>

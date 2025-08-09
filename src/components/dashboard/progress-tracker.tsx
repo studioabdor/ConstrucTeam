@@ -9,8 +9,7 @@ import {
   Pause,
   Calendar,
   User,
-  MapPin,
-  DollarSign
+  MapPin
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 

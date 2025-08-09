@@ -40,15 +40,15 @@ interface DynamicBentoGridProps {
   maxColumns?: 3 | 4 | 6;
 }
 
-// CSS Grid class mappings for different sizes
-const sizeClasses = {
-  small: "col-span-1 row-span-1",
-  medium: "col-span-2 row-span-1",
-  large: "col-span-2 row-span-2",
-  wide: "col-span-3 row-span-1",
-  tall: "col-span-1 row-span-2",
-  xlarge: "col-span-3 row-span-2",
-};
+// CSS Grid class mappings for different sizes (unused)
+// const sizeClasses = {
+//   small: "col-span-1 row-span-1",
+//   medium: "col-span-2 row-span-1",
+//   large: "col-span-2 row-span-2",
+//   wide: "col-span-3 row-span-1",
+//   tall: "col-span-1 row-span-2",
+//   xlarge: "col-span-3 row-span-2",
+// };
 
 // Responsive size classes for mobile
 const responsiveSizeClasses = {
@@ -113,7 +113,7 @@ export function DynamicBentoGrid({ items, className, maxColumns = 6 }: DynamicBe
         className
       )}
     >
-      {sortedItems.map((item, index) => (
+      {sortedItems.map((item) => (
         <motion.div
           key={item.id}
           variants={itemVariants}

@@ -1,21 +1,15 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   Search, 
-  Filter, 
   MapPin, 
   Calendar, 
   DollarSign, 
-  User, 
   Building2,
-  Heart,
   MessageCircle,
-  ExternalLink,
-  X,
   Star,
-  CheckCircle,
   Grid3X3,
   List,
   SlidersHorizontal
@@ -207,7 +201,7 @@ const mockProjectSlips: ProjectSlipType[] = [
 ];
 
 export default function FeedPage() {
-  const { user, userProfile } = useAuth();
+  const { } = useAuth();
   const [activeTab, setActiveTab] = useState<"all" | "residential" | "commercial" | "industrial" | "renovation">("all");
   const [searchQuery, setSearchQuery] = useState("");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");

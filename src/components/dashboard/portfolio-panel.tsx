@@ -8,16 +8,10 @@ import {
   Eye, 
   Heart, 
   MessageCircle, 
-  Share2, 
-  Award, 
   Calendar, 
   MapPin, 
   ExternalLink,
-  Camera,
-  Upload,
-  Star,
-  TrendingUp,
-  Users
+  Upload
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
