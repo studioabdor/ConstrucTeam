@@ -26,14 +26,18 @@ import { useAuth } from "@/hooks/useAuth";
 
 const onboardingSchema = z.object({
   services: z.array(z.string()).min(1, "Please select at least one service"),
-  specializations: z.array(z.string()).min(1, "Please add at least one specialization"),
+  specializations: z.array(z.object({
+    value: z.string().min(1, "Specialization cannot be empty")
+  })).min(1, "Please add at least one specialization"),
   experience: z.number().min(0, "Experience cannot be negative").max(50, "Experience seems too high"),
   location: z.object({
     city: z.string().min(1, "City is required"),
     state: z.string().min(1, "State is required"),
     pincode: z.string().regex(/^[1-9][0-9]{5}$/, "Invalid pincode"),
   }),
-  portfolioLinks: z.array(z.string().url("Please enter valid URLs")).optional(),
+  portfolioLinks: z.array(z.object({
+    value: z.string().url("Please enter valid URLs")
+  })).optional(),
   preferredProjectSize: z.enum(["small", "medium", "large", "any"]),
   useAlias: z.boolean(),
   aliasName: z.string().optional(),
@@ -91,14 +95,14 @@ export default function AuthPage() {
     resolver: zodResolver(onboardingSchema),
     defaultValues: {
       services: [],
-      specializations: [""],
+      specializations: [{ value: "" }],
       experience: 5,
       location: {
         city: "",
         state: "",
         pincode: "",
       },
-      portfolioLinks: [""],
+      portfolioLinks: [{ value: "" }],
       preferredProjectSize: "any",
       useAlias: false,
       aliasName: "",
@@ -162,8 +166,12 @@ export default function AuthPage() {
       // Clean up empty strings
       const cleanData = {
         ...data,
-        specializations: data.specializations.filter(s => s.trim() !== ""),
-        portfolioLinks: data.portfolioLinks?.filter(link => link.trim() !== "") || [],
+        specializations: data.specializations
+          .map(s => s.value.trim())
+          .filter(s => s !== ""),
+        portfolioLinks: data.portfolioLinks
+          ?.map(link => link.value.trim())
+          .filter(link => link !== "") || [],
       };
 
       // Update user profile with onboarding data
@@ -324,7 +332,7 @@ export default function AuthPage() {
                         <Input
                           placeholder={`Specialization ${index + 1}`}
                           className="glass flex-1"
-                          {...form.register(`specializations.${index}`)}
+                          {...form.register(`specializations.${index}.value`)}
                         />
                         {specializationFields.length > 1 && (
                           <Button
@@ -341,7 +349,7 @@ export default function AuthPage() {
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => appendSpecialization("")}
+                      onClick={() => appendSpecialization({ value: "" })}
                       className="glass"
                     >
                       <Plus className="h-4 w-4 mr-2" />
@@ -374,7 +382,7 @@ export default function AuthPage() {
                         <Input
                           placeholder="https://your-portfolio.com"
                           className="glass flex-1"
-                          {...form.register(`portfolioLinks.${index}`)}
+                          {...form.register(`portfolioLinks.${index}.value`)}
                         />
                         {portfolioFields.length > 1 && (
                           <Button
@@ -391,7 +399,7 @@ export default function AuthPage() {
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => appendPortfolio("")}
+                      onClick={() => appendPortfolio({ value: "" })}
                       className="glass"
                     >
                       <Plus className="h-4 w-4 mr-2" />
