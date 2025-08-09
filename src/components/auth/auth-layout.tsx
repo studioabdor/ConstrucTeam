@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useState } from "react";
+import { ReactNode, useState, useEffect } from "react";
 import { AppLayout } from "@/components/layout/app-layout";
 import { AuthModal } from "./auth-modal";
 
@@ -9,9 +9,10 @@ interface AuthLayoutProps {
   requireAuth?: boolean;
   className?: string;
   onAuthModalOpen?: (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => void;
+  initialModal?: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' } | null;
 }
 
-export function AuthLayout({ children, requireAuth = false, className, onAuthModalOpen }: AuthLayoutProps) {
+export function AuthLayout({ children, requireAuth = false, className, onAuthModalOpen, initialModal }: AuthLayoutProps) {
   const [authModal, setAuthModal] = useState<{
     isOpen: boolean;
     userType: 'client' | 'consultant';
@@ -21,6 +22,13 @@ export function AuthLayout({ children, requireAuth = false, className, onAuthMod
     userType: 'client',
     mode: 'signin'
   });
+
+  // Handle initial modal trigger from parent component
+  useEffect(() => {
+    if (initialModal) {
+      setAuthModal(initialModal);
+    }
+  }, [initialModal]);
 
   const handleAuthModalOpen = (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => {
     setAuthModal(type);

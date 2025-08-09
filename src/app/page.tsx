@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { Building2, Users, Sparkles, ArrowRight, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,6 +14,16 @@ export default function LandingPage() {
   const handleAuthModalOpen = (type: { isOpen: boolean; userType: 'client' | 'consultant'; mode: 'signin' | 'signup' }) => {
     setTriggerAuthModal(type);
   };
+
+  // Clear trigger after a short delay to reset state
+  useEffect(() => {
+    if (triggerAuthModal) {
+      const timer = setTimeout(() => {
+        setTriggerAuthModal(null);
+      }, 100);
+      return () => clearTimeout(timer);
+    }
+  }, [triggerAuthModal]);
 
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -42,7 +52,10 @@ export default function LandingPage() {
   ];
 
   return (
-    <AuthLayout onAuthModalOpen={handleAuthModalOpen}>
+    <AuthLayout 
+      onAuthModalOpen={handleAuthModalOpen}
+      initialModal={triggerAuthModal}
+    >
       <div className="min-h-screen relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
