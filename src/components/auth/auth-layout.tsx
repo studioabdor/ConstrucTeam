@@ -38,8 +38,8 @@ export function AuthLayout({ children, requireAuth = false, className, onAuthMod
       <AuthModal
         isOpen={authModal.isOpen}
         onClose={() => setAuthModal(prev => ({ ...prev, isOpen: false }))}
-        initialUserType={authModal.userType}
-        initialMode={authModal.mode}
+        defaultUserType={authModal.userType}
+        defaultMode={authModal.mode}
       />
     </AppLayout>
   );

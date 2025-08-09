@@ -4,7 +4,7 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useForm, useFieldArray } from "react-hook-form";
 // import { zodResolver } from "@hookform/resolvers/zod"; // Temporarily removed due to type conflicts
-import { z } from "zod";
+// import { z } from "zod"; // Temporarily removed - not using Zod validation
 import { 
   Plus, 
   X, 
