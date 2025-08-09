@@ -24,7 +24,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
-import { ConsultantOnboardingForm } from "@/types";
+// import { ConsultantOnboardingForm } from "@/types";
 
 const onboardingSchema = z.object({
   services: z.array(z.string()).min(1, "Please select at least one service"),
@@ -225,7 +225,7 @@ export default function AuthPage() {
           </div>
           <h1 className="text-3xl font-bold text-center mb-2">Welcome to ConstrucTeam!</h1>
           <p className="text-muted-foreground text-center">
-            Let's set up your consultant profile to start receiving project opportunities
+            Let&apos;s set up your consultant profile to start receiving project opportunities
           </p>
         </motion.div>
 

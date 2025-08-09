@@ -6,7 +6,7 @@ import { Building2, Users, Sparkles, ArrowRight, CheckCircle } from "lucide-reac
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "@/components/ui/theme-toggle";
 import { AuthModal } from "@/components/auth/auth-modal";
-import Link from "next/link";
+// import Link from "next/link";
 
 export default function LandingPage() {
   const [authModal, setAuthModal] = useState({ 
@@ -134,7 +134,7 @@ export default function LandingPage() {
             variants={itemVariants}
             className="text-xl md:text-2xl text-muted-foreground max-w-3xl mx-auto leading-relaxed"
           >
-            India's premier matchmaking platform for the real estate and construction industry.
+            India&apos;s premier matchmaking platform for the real estate and construction industry.
             Connect with verified architects, engineers, and specialized consultants through our
             beautiful, intuitive interface.
           </motion.p>
@@ -259,7 +259,7 @@ export default function LandingPage() {
                 <span className="text-lg font-bold">ConstrucTeam</span>
               </div>
               <p className="text-sm text-muted-foreground">
-                Connecting India's construction ecosystem, one project at a time.
+                Connecting India&apos;s construction ecosystem, one project at a time.
               </p>
             </div>
             <div>
@@ -288,7 +288,7 @@ export default function LandingPage() {
             </div>
           </div>
           <div className="border-t border-white/10 mt-12 pt-8 text-center text-sm text-muted-foreground">
-            <p>&copy; 2024 ConstrucTeam. All rights reserved. Made with ❤️ for India's builders.</p>
+            <p>&copy; 2024 ConstrucTeam. All rights reserved. Made with ❤️ for India&apos;s builders.</p>
           </div>
         </div>
       </motion.footer>

@@ -58,8 +58,9 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
     try {
       await signIn(data.email, data.password);
       onClose();
-    } catch (error: any) {
-      signInForm.setError('root', { message: error.message });
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      signInForm.setError('root', { message: errorMessage });
     } finally {
       setLoading(false);
     }
@@ -70,8 +71,9 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
     try {
       await signUp(data.email, data.password, data.userType);
       onClose();
-    } catch (error: any) {
-      signUpForm.setError('root', { message: error.message });
+    } catch (error: unknown) {
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      signUpForm.setError('root', { message: errorMessage });
     } finally {
       setLoading(false);
     }
@@ -82,9 +84,10 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
     try {
       await signInWithGoogle(userType);
       onClose();
-    } catch (error: any) {
+    } catch (error: unknown) {
       const form = mode === 'signin' ? signInForm : signUpForm;
-      form.setError('root', { message: error.message });
+      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
+      form.setError('root', { message: errorMessage });
     } finally {
       setLoading(false);
     }

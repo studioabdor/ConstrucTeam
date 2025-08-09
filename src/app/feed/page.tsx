@@ -377,10 +377,9 @@ function PortfolioCard({ portfolio }: { portfolio: PortfolioItem }) {
     <div className="glass-card overflow-hidden cursor-pointer hover:scale-105 transition-transform duration-300 group">
       {portfolio.images[0] && (
         <div className="relative h-48 overflow-hidden">
-          <img 
-            src={portfolio.images[0]} 
-            alt={portfolio.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+          <div 
+            style={{ backgroundImage: `url(${portfolio.images[0]})` }}
+            className="w-full h-full bg-cover bg-center group-hover:scale-110 transition-transform duration-300"
           />
           <div className="absolute top-3 right-3">
             <div className="text-xs px-2 py-1 bg-black/50 text-white rounded-full backdrop-blur-sm">
@@ -572,10 +571,9 @@ function PortfolioDetails({ portfolio }: { portfolio: PortfolioItem }) {
     <div className="space-y-6">
       {portfolio.images[0] && (
         <div className="relative h-80 rounded-lg overflow-hidden">
-          <img 
-            src={portfolio.images[0]} 
-            alt={portfolio.title}
-            className="w-full h-full object-cover"
+          <div 
+            style={{ backgroundImage: `url(${portfolio.images[0]})` }}
+            className="w-full h-full bg-cover bg-center"
           />
         </div>
       )}

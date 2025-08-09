@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, ReactNode } from 'react';
+import { ReactNode } from 'react';
 import { useAuthContext, AuthContext } from '@/hooks/useAuth';
 
 interface AuthProviderProps {

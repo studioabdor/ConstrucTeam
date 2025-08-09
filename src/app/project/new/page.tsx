@@ -10,10 +10,8 @@ import {
   ArrowRight, 
   Building2, 
   MapPin, 
-  Calendar, 
   DollarSign, 
   FileText, 
-  Image as ImageIcon,
   Plus,
   X,
   CheckCircle
@@ -21,7 +19,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { ProjectRequestForm } from "@/types";
+// import { ProjectRequestForm } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import Link from "next/link";
 

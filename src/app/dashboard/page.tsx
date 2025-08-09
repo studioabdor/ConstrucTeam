@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { 
   User, 
@@ -8,7 +8,7 @@ import {
   Star, 
   TrendingUp, 
   Eye, 
-  MessageCircle, 
+ 
   Calendar, 
   DollarSign,
   Building2,
@@ -23,7 +23,7 @@ import {
   Award
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
+// import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useAuth } from "@/hooks/useAuth";
 import { formatCurrency, formatRelativeTime } from "@/lib/utils";
@@ -188,7 +188,7 @@ export default function DashboardPage() {
                     Welcome back, {userProfile.useAlias && userProfile.aliasName ? userProfile.aliasName : userProfile.displayName}! 👋
                   </h2>
                   <p className="text-muted-foreground">
-                    Here's what's happening with your consultancy business
+                    Here&apos;s what&apos;s happening with your consultancy business
                   </p>
                 </div>
                 <div className="text-right">
@@ -350,11 +350,10 @@ export default function DashboardPage() {
                 <div className="space-y-4">
                   {mockRecentProjects.map((project) => (
                     <div key={project.id} className="flex items-center space-x-3 p-3 rounded-lg bg-white/5">
-                      <img 
-                        src={project.image} 
-                        alt={project.title}
-                        className="w-12 h-12 rounded-lg object-cover"
-                      />
+                                    <div 
+                style={{ backgroundImage: `url(${project.image})` }}
+                className="w-12 h-12 rounded-lg bg-cover bg-center"
+              />
                       <div className="flex-1">
                         <h4 className="font-medium text-sm">{project.title}</h4>
                         <p className="text-xs text-muted-foreground">{project.client}</p>
@@ -400,7 +399,7 @@ export default function DashboardPage() {
   );
 }
 
-function ProfileTab({ userProfile, isEditing, setIsEditing }: any) {
+function ProfileTab({ userProfile, isEditing, setIsEditing }: { userProfile: any; isEditing: boolean; setIsEditing: (editing: boolean) => void }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -523,7 +522,7 @@ function ProfileTab({ userProfile, isEditing, setIsEditing }: any) {
   );
 }
 
-function BidsTab({ bids }: { bids: any[] }) {
+function BidsTab({ bids }: { bids: Array<any> }) {
   return (
     <div className="space-y-6">
       <h2 className="text-2xl font-bold">My Bids</h2>
@@ -585,7 +584,7 @@ function BidsTab({ bids }: { bids: any[] }) {
   );
 }
 
-function ProjectsTab({ projects }: { projects: any[] }) {
+function ProjectsTab({ projects }: { projects: Array<any> }) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
@@ -604,10 +603,9 @@ function ProjectsTab({ projects }: { projects: any[] }) {
             animate={{ opacity: 1, scale: 1 }}
             className="glass-card overflow-hidden hover:scale-105 transition-transform"
           >
-            <img 
-              src={project.image} 
-              alt={project.title}
-              className="w-full h-48 object-cover"
+            <div 
+              style={{ backgroundImage: `url(${project.image})` }}
+              className="w-full h-48 bg-cover bg-center"
             />
             <div className="p-6">
               <h3 className="text-lg font-semibold mb-2">{project.title}</h3>
