@@ -12,7 +12,8 @@ import {
   Star,
   Grid3X3,
   List,
-  SlidersHorizontal
+  SlidersHorizontal,
+  User
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";

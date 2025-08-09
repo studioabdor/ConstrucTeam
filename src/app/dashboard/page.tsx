@@ -75,32 +75,7 @@ const mockRecentProjects = [
   }
 ];
 
-const mockActivities = [
-  {
-    id: "1",
-    action: "New project inquiry received",
-    time: "2 hours ago",
-    icon: <MessageCircle className="h-3 w-3" />
-  },
-  {
-    id: "2", 
-    action: "Portfolio viewed by client",
-    time: "4 hours ago", 
-    icon: <Eye className="h-3 w-3" />
-  },
-  {
-    id: "3",
-    action: "Project milestone completed",
-    time: "1 day ago",
-    icon: <CheckCircle className="h-3 w-3" />
-  },
-  {
-    id: "4",
-    action: "Client left 5-star review",
-    time: "2 days ago",
-    icon: <Star className="h-3 w-3" />
-  }
-];
+// Mock activities removed - using ActivityFeed component instead
 
 export default function Dashboard() {
   const { user, userProfile } = useAuth();
