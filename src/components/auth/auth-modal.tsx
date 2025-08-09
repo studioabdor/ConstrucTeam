@@ -27,7 +27,7 @@ const signUpSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string(),
-  userType: z.enum(['client', 'consultant'], { required_error: 'Please select user type' }),
+  userType: z.enum(['client', 'consultant'], { message: 'Please select user type' }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
