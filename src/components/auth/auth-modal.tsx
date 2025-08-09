@@ -17,6 +17,7 @@ interface AuthModalProps {
   onClose: () => void;
   defaultUserType?: 'client' | 'consultant';
   defaultMode?: 'signin' | 'signup';
+  redirectPath?: string; // Custom redirect after successful auth
 }
 
 const signInSchema = z.object({
@@ -37,7 +38,7 @@ const signUpSchema = z.object({
 type SignInFormData = z.infer<typeof signInSchema>;
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
-export function AuthModal({ isOpen, onClose, defaultUserType = 'client', defaultMode = 'signin' }: AuthModalProps) {
+export function AuthModal({ isOpen, onClose, defaultUserType = 'client', defaultMode = 'signin', redirectPath }: AuthModalProps) {
   const [mode, setMode] = useState<'signin' | 'signup'>(defaultMode);
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -62,7 +63,11 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
       onClose();
       // Navigate to appropriate page after successful sign-in
       setTimeout(() => {
-        router.push('/feed');
+        if (redirectPath) {
+          router.push(redirectPath);
+        } else {
+          router.push('/feed');
+        }
       }, 100);
     } catch (error: unknown) {
       const errorMessage = error instanceof Error ? error.message : 'An error occurred';
@@ -102,6 +107,8 @@ export function AuthModal({ isOpen, onClose, defaultUserType = 'client', default
       setTimeout(() => {
         if (userType === 'consultant') {
           router.push('/auth?type=consultant');
+        } else if (redirectPath) {
+          router.push(redirectPath);
         } else {
           router.push('/feed');
         }

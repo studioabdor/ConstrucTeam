@@ -222,11 +222,11 @@ export default function Dashboard() {
       priority: 2,
       isInteractive: true,
       children: (
-        <div className="flex flex-col items-center justify-center h-full text-center">
-          <Plus className="h-8 w-8 text-emerald-500 mb-2" />
-          <h3 className="font-semibold mb-1">Create New Post</h3>
-          <p className="text-xs text-muted-foreground">Share your latest work</p>
-              </div>
+        <div className="flex flex-col items-center justify-center h-full text-center p-2">
+          <Plus className="h-8 w-8 text-emerald-500 mb-3" />
+          <h3 className="font-semibold mb-2 text-sm leading-tight">Create New Post</h3>
+          <p className="text-xs text-muted-foreground leading-tight">Share your latest work</p>
+        </div>
       ),
       onClick: () => console.log("Create new post")
     },
@@ -237,11 +237,11 @@ export default function Dashboard() {
       priority: 1,
       isInteractive: true,
       children: (
-        <div className="flex flex-col items-center justify-center h-full text-center">
-          <BarChart3 className="h-8 w-8 text-amber-500 mb-2" />
-          <h3 className="font-semibold mb-1">View Analytics</h3>
-          <p className="text-xs text-muted-foreground">Track your performance</p>
-            </div>
+        <div className="flex flex-col items-center justify-center h-full text-center p-2">
+          <BarChart3 className="h-8 w-8 text-amber-500 mb-3" />
+          <h3 className="font-semibold mb-2 text-sm leading-tight">View Analytics</h3>
+          <p className="text-xs text-muted-foreground leading-tight">Track your performance</p>
+        </div>
       ),
       onClick: () => setActiveTab("analytics")
     }

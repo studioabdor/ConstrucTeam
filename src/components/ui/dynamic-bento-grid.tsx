@@ -118,7 +118,7 @@ export function DynamicBentoGrid({ items, className, maxColumns = 6 }: DynamicBe
           key={item.id}
           variants={itemVariants}
           className={cn(
-            "glass-card p-4 hover:glass-strong transition-all duration-300 rounded-xl group",
+            "glass-card p-3 hover:glass-strong transition-all duration-300 rounded-xl group overflow-hidden",
             responsiveSizeClasses[item.size],
             contentTypeStyles[item.contentType],
             item.isInteractive && "cursor-pointer hover:scale-[1.02] active:scale-[0.98]",
@@ -156,15 +156,15 @@ export function BentoStat({
   };
 
   return (
-    <div className="flex flex-col justify-between h-full">
-      <div className="flex items-center justify-between">
-        <p className="text-sm text-muted-foreground">{title}</p>
-        {icon && <div className="text-muted-foreground">{icon}</div>}
+    <div className="flex flex-col justify-between h-full p-2">
+      <div className="flex items-start justify-between mb-2">
+        <p className="text-sm text-muted-foreground font-medium leading-tight">{title}</p>
+        {icon && <div className="text-muted-foreground flex-shrink-0 ml-2">{icon}</div>}
       </div>
-      <div>
-        <p className="text-2xl font-bold">{value}</p>
+      <div className="mt-auto">
+        <p className="text-2xl md:text-3xl font-bold leading-none mb-1">{value}</p>
         {change && (
-          <p className={cn("text-xs", changeColors[changeType])}>
+          <p className={cn("text-xs font-medium", changeColors[changeType])}>
             {change}
           </p>
         )}
@@ -187,21 +187,21 @@ export function BentoProgress({
   const percentage = (progress / total) * 100;
 
   return (
-    <div className="flex flex-col justify-between h-full">
-      <div>
-        <h3 className="font-semibold mb-2">{title}</h3>
+    <div className="flex flex-col justify-between h-full p-2">
+      <div className="mb-3">
+        <h3 className="font-semibold text-base leading-tight mb-1">{title}</h3>
         {description && (
-          <p className="text-sm text-muted-foreground mb-4">{description}</p>
+          <p className="text-sm text-muted-foreground leading-tight">{description}</p>
         )}
       </div>
-      <div>
-        <div className="flex items-center justify-between text-sm mb-2">
-          <span>{progress}/{total}</span>
-          <span>{Math.round(percentage)}%</span>
+      <div className="mt-auto">
+        <div className="flex items-center justify-between text-sm font-medium mb-2">
+          <span className="text-muted-foreground">{progress}/{total}</span>
+          <span className="text-emerald-600 dark:text-emerald-400">{Math.round(percentage)}%</span>
         </div>
-        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+        <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
           <motion.div
-            className="bg-gradient-to-r from-emerald-500 to-teal-500 h-2 rounded-full"
+            className="bg-gradient-to-r from-emerald-500 to-teal-500 h-2.5 rounded-full"
             initial={{ width: 0 }}
             animate={{ width: `${percentage}%` }}
             transition={{ duration: 1, ease: "easeOut" }}
@@ -224,25 +224,25 @@ export function BentoPortfolio({
   tags: string[];
 }) {
   return (
-    <div className="flex flex-col h-full">
+    <div className="flex flex-col h-full p-2">
       <div 
-        className="flex-1 rounded-lg bg-cover bg-center mb-3 min-h-[60px]"
+        className="flex-1 rounded-lg bg-cover bg-center mb-3 min-h-[60px] border border-white/10"
         style={{ backgroundImage: `url(${imageUrl})` }}
       />
-      <div>
-        <h3 className="font-semibold mb-1 text-sm">{title}</h3>
-        <p className="text-xs text-muted-foreground mb-2 line-clamp-2">{description}</p>
+      <div className="space-y-2">
+        <h3 className="font-semibold text-sm leading-tight line-clamp-1">{title}</h3>
+        <p className="text-xs text-muted-foreground leading-tight line-clamp-2">{description}</p>
         <div className="flex flex-wrap gap-1">
           {tags.slice(0, 2).map((tag) => (
             <span 
               key={tag}
-              className="px-2 py-1 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs rounded-md"
+              className="px-2 py-1 bg-emerald-500/20 text-emerald-700 dark:text-emerald-400 text-xs rounded-md font-medium"
             >
               {tag}
             </span>
           ))}
           {tags.length > 2 && (
-            <span className="text-xs text-muted-foreground">+{tags.length - 2}</span>
+            <span className="text-xs text-muted-foreground font-medium">+{tags.length - 2}</span>
           )}
         </div>
       </div>

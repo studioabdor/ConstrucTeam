@@ -122,12 +122,19 @@ export function Navbar({ showAuthButtons = true, onAuthModalOpen }: NavbarProps)
 
                   {/* Notification Dropdown */}
                   {notificationOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-80 glass-card p-4 shadow-xl z-50"
-                    >
+                    <>
+                      {/* Backdrop */}
+                      <div 
+                        className="fixed inset-0 z-40 bg-black/10"
+                        onClick={() => setNotificationOpen(false)}
+                      />
+                      
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute right-0 mt-2 w-80 glass-card p-4 shadow-xl z-50 border border-white/20"
+                      >
                       <div className="flex items-center justify-between mb-4">
                         <h3 className="font-semibold">Notifications</h3>
                         <Button 
@@ -165,7 +172,8 @@ export function Navbar({ showAuthButtons = true, onAuthModalOpen }: NavbarProps)
                           View All Notifications
                         </Button>
                       </div>
-                    </motion.div>
+                      </motion.div>
+                    </>
                   )}
                 </div>
 
@@ -189,12 +197,19 @@ export function Navbar({ showAuthButtons = true, onAuthModalOpen }: NavbarProps)
 
                   {/* Dropdown Menu */}
                   {userMenuOpen && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: 10 }}
-                      className="absolute right-0 mt-2 w-64 glass-card p-2 shadow-xl z-50"
-                    >
+                    <>
+                      {/* Backdrop */}
+                      <div 
+                        className="fixed inset-0 z-40 bg-black/10"
+                        onClick={() => setUserMenuOpen(false)}
+                      />
+                      
+                      <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="absolute right-0 mt-2 w-64 glass-card p-2 shadow-xl z-50 border border-white/20"
+                      >
                       {/* User Info */}
                       <div className="px-3 py-2 border-b border-white/10">
                         <p className="font-medium">
@@ -245,7 +260,8 @@ export function Navbar({ showAuthButtons = true, onAuthModalOpen }: NavbarProps)
                           <span>Sign Out</span>
                         </button>
                       </div>
-                    </motion.div>
+                      </motion.div>
+                    </>
                   )}
                 </div>
               </>
