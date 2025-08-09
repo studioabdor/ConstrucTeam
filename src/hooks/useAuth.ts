@@ -69,6 +69,10 @@ export function useAuthContext(): AuthContextType {
     displayName: string | null,
     userType: 'client' | 'consultant'
   ): Promise<AppUser> => {
+    if (!db) {
+      throw new Error('Firestore not available - please configure Firebase');
+    }
+    
     const now = new Date();
     const baseProfile: AppUser = {
       uid,
@@ -172,7 +176,7 @@ export function useAuthContext(): AuthContextType {
 
   // Update user profile
   const updateUserProfile = async (data: Partial<AppUser> | Partial<ConsultantProfile> | Partial<ClientProfile>) => {
-    if (!user || !userProfile) return;
+    if (!user || !userProfile || !db) return;
 
     try {
       const updatedProfile = {
