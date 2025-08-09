@@ -129,6 +129,9 @@ export function useAuthContext(): AuthContextType {
 
   // Sign in with email and password
   const signIn = async (email: string, password: string) => {
+    if (!auth) {
+      throw new Error('Authentication not available - please configure Firebase');
+    }
     try {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
@@ -139,6 +142,9 @@ export function useAuthContext(): AuthContextType {
 
   // Sign in with Google
   const signInWithGoogle = async (userType: 'client' | 'consultant') => {
+    if (!auth) {
+      throw new Error('Authentication not available - please configure Firebase');
+    }
     try {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
@@ -165,6 +171,9 @@ export function useAuthContext(): AuthContextType {
 
   // Logout
   const logout = async () => {
+    if (!auth) {
+      throw new Error('Authentication not available - please configure Firebase');
+    }
     try {
       await signOut(auth);
       setUserProfile(null);
