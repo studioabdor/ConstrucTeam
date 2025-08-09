@@ -56,7 +56,9 @@ const projectSchema = z.object({
     expectedDuration: z.number().min(1, "Duration should be at least 1 day"),
     isFlexible: z.boolean(),
   }),
-  requirements: z.array(z.string().min(1, "Requirement cannot be empty")).min(1, "At least one requirement is needed"),
+  requirements: z.array(z.object({
+    value: z.string().min(1, "Requirement cannot be empty")
+  })).min(1, "At least one requirement is needed"),
   tags: z.array(z.string()).max(10, "Maximum 10 tags allowed"),
 });
 
@@ -108,7 +110,7 @@ export default function NewProjectPage() {
         expectedDuration: 30,
         isFlexible: true,
       },
-      requirements: [""],
+      requirements: [{ value: "" }],
       tags: [],
     },
   });
@@ -467,7 +469,7 @@ export default function NewProjectPage() {
                         <Input
                           placeholder={`Requirement ${index + 1}`}
                           className="glass flex-1"
-                          {...form.register(`requirements.${index}`)}
+                          {...form.register(`requirements.${index}.value`)}
                         />
                         {requirementFields.length > 1 && (
                           <Button
@@ -484,7 +486,7 @@ export default function NewProjectPage() {
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => appendRequirement("")}
+                      onClick={() => appendRequirement({ value: "" })}
                       className="glass"
                     >
                       <Plus className="h-4 w-4 mr-2" />
