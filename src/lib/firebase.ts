@@ -15,10 +15,10 @@ const firebaseConfig = {
 };
 
 // Initialize Firebase only if we have a valid API key
-let app: any = null;
-let auth: any = null;
-let db: any = null;
-let storage: any = null;
+let app: ReturnType<typeof initializeApp> | null = null;
+let auth: ReturnType<typeof getAuth> | null = null;
+let db: ReturnType<typeof getFirestore> | null = null;
+let storage: ReturnType<typeof getStorage> | null = null;
 
 const isValidFirebaseConfig = process.env.NEXT_PUBLIC_FIREBASE_API_KEY && 
                               process.env.NEXT_PUBLIC_FIREBASE_API_KEY !== "demo-api-key";
